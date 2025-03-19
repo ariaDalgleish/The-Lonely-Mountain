@@ -6,9 +6,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float playerSpeed = 5.0f;
     [SerializeField]
-    private float jumpHeight = 1.0f;
-    [SerializeField]
     private float gravityValue = -9.81f;
+    [SerializeField]
+    private float smoothInputSpeed = .2f;
+    [SerializeField]
+    private float sprintSpeed = 10.0f;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -16,11 +18,17 @@ public class PlayerController : MonoBehaviour
     private InputManager _inputManager;
     private Transform _cameraTransform;
 
+    private Vector2 currentInputVector;
+    private Vector2 smoothInputVelocity;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
         _inputManager = InputManager.Instance;
         _cameraTransform = Camera.main.transform;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        Cursor.visible = false;
     }
 
     void Update()
@@ -32,10 +40,17 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector2 movement = _inputManager.GetMovementInput();
-        Vector3 move = new Vector3(movement.x, 0f, movement.y);
+        currentInputVector = Vector2.SmoothDamp(currentInputVector, movement, ref smoothInputVelocity, smoothInputSpeed);
+        Vector3 move = new Vector3(currentInputVector.x, 0f, currentInputVector.y);
         move = _cameraTransform.forward * move.z + _cameraTransform.right * move.x;
         move.y = 0f;
         controller.Move(move * Time.deltaTime * playerSpeed);
+
+       
+
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
+
 
         //if (move != Vector3.zero)
         //{
@@ -43,18 +58,15 @@ public class PlayerController : MonoBehaviour
         //}
 
         // Makes the player jump
-        if (_inputManager.IsJumpKeyPressed() && groundedPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
-        }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
-
-        //if(_inputManager.IsSprintKeyPressed())
+        //if (_inputManager.IsJumpKeyPressed() && groundedPlayer)
         //{
-        //    playerSpeed = 10.0f;
+        //    playerVelocity.y += Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
         //}
+
+        if (_inputManager.IsSprintKeyPressed())
+        {
+            Debug.Log("SprintPressed");
+        }
         //else
         //{
         //    playerSpeed = 5.0f;

@@ -58,6 +58,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SprintStart",
+                    "type": "Button",
+                    "id": "ab406bc3-7f9c-4271-859a-36ff5487db6c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SprintFinish",
+                    "type": "Button",
+                    "id": "7b2f9138-28da-4dc4-a7a5-5885a2eae8e5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -153,7 +171,7 @@
                     "name": "",
                     "id": "6a8312c8-0a96-44da-a6dc-f9a8b80826d4",
                     "path": "<Keyboard>/shift",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
                     "action": "Sprint",
@@ -168,6 +186,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5780478-ee2e-47b5-a988-84e49c8e2aed",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SprintStart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a72924a6-9aac-4c7a-96ac-1944c08e0341",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SprintFinish",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

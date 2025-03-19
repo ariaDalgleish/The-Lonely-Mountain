@@ -51,10 +51,10 @@ public class InputManager : MonoBehaviour
         return playerControls.Player.Jump.triggered;
     }
 
-    //public bool IsSprintKeyPressed()
-    //{
-    //    return playerControls.Player.Sprint.triggered;
-    //}
+    public bool IsSprintKeyPressed()
+    {
+        return playerControls.Player.Sprint.triggered;
+    }
 
     //public bool IsCrouchKeyPressed()
     //{

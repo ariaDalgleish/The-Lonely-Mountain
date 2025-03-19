@@ -144,6 +144,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SprintStart"",
+                    ""type"": ""Button"",
+                    ""id"": ""ab406bc3-7f9c-4271-859a-36ff5487db6c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SprintFinish"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b2f9138-28da-4dc4-a7a5-5885a2eae8e5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -239,7 +257,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""6a8312c8-0a96-44da-a6dc-f9a8b80826d4"",
                     ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Sprint"",
@@ -254,6 +272,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5780478-ee2e-47b5-a988-84e49c8e2aed"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SprintStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a72924a6-9aac-4c7a-96ac-1944c08e0341"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SprintFinish"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -287,6 +327,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_SprintStart = m_Player.FindAction("SprintStart", throwIfNotFound: true);
+        m_Player_SprintFinish = m_Player.FindAction("SprintFinish", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -373,6 +415,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_SprintStart;
+    private readonly InputAction m_Player_SprintFinish;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -408,6 +452,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Sprint".
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SprintStart".
+        /// </summary>
+        public InputAction @SprintStart => m_Wrapper.m_Player_SprintStart;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SprintFinish".
+        /// </summary>
+        public InputAction @SprintFinish => m_Wrapper.m_Player_SprintFinish;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -452,6 +504,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @SprintStart.started += instance.OnSprintStart;
+            @SprintStart.performed += instance.OnSprintStart;
+            @SprintStart.canceled += instance.OnSprintStart;
+            @SprintFinish.started += instance.OnSprintFinish;
+            @SprintFinish.performed += instance.OnSprintFinish;
+            @SprintFinish.canceled += instance.OnSprintFinish;
         }
 
         /// <summary>
@@ -481,6 +539,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @SprintStart.started -= instance.OnSprintStart;
+            @SprintStart.performed -= instance.OnSprintStart;
+            @SprintStart.canceled -= instance.OnSprintStart;
+            @SprintFinish.started -= instance.OnSprintFinish;
+            @SprintFinish.performed -= instance.OnSprintFinish;
+            @SprintFinish.canceled -= instance.OnSprintFinish;
         }
 
         /// <summary>
@@ -576,5 +640,19 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSprint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SprintStart" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSprintStart(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SprintFinish" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSprintFinish(InputAction.CallbackContext context);
     }
 }
