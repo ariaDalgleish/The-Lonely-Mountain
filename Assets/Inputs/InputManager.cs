@@ -3,6 +3,10 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     private static InputManager _instance;
+
+    public bool sprint;
+
+
     public static InputManager Instance
     {
         get
@@ -39,6 +43,7 @@ public class InputManager : MonoBehaviour
     public Vector2 GetMovementInput()
     {
         return playerControls.Player.Movement.ReadValue<Vector2>();
+
     }
 
     public Vector2 GetMouseDelta()
@@ -51,9 +56,9 @@ public class InputManager : MonoBehaviour
         return playerControls.Player.Jump.triggered;
     }
 
-    public bool IsSprintKeyPressed()
+    public void SprintInput(bool newSprintState)
     {
-        return playerControls.Player.Sprint.triggered;
+        sprint = newSprintState;
     }
 
     //public bool IsCrouchKeyPressed()
