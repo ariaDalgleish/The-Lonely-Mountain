@@ -1,25 +1,24 @@
 using UnityEngine;
 using UnityEngine.Windows;
 
-[RequireComponent(typeof(CharacterController))] 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private float playerSpeed = 4.0f;
     [SerializeField]
-    private float sprintSpeed = 6.0f;
+    private float sprintSpeed = 8.0f;
     [SerializeField]
     private float gravityValue = -9.81f;
     [SerializeField]
     private float smoothInputSpeed = .2f;
-    //[SerializeField]
-   // private float sprintSpeed = 10.0f;
 
+    private SurvivalManager _survivalManager;
     private CharacterController controller;
+    private InputManager _inputManager;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    private InputManager _inputManager;
-    
+   
     private Transform _cameraTransform;
 
     private Vector2 currentInputVector;
@@ -27,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        _survivalManager = GetComponent<SurvivalManager>();
         controller = GetComponent<CharacterController>();
         _inputManager = InputManager.Instance;
         _cameraTransform = Camera.main.transform;
@@ -54,19 +54,16 @@ public class PlayerController : MonoBehaviour
         move = _cameraTransform.forward * move.z + _cameraTransform.right * move.x;
         // Set the player's y velocity to 0
         move.y = 0f;
+
+        // Check for sprint input and adjust speed
+        float currentSpeed = _inputManager.GetSprintInput() && _survivalManager.HasStamina() ? sprintSpeed : playerSpeed;
+
         // Move the player based on the input and speed 
-        controller.Move(move * Time.deltaTime * playerSpeed);
-              
+        controller.Move(move * Time.deltaTime * currentSpeed);
+
         playerVelocity.y += gravityValue * Time.deltaTime;
         // Move the player based on the player velocity
         controller.Move(playerVelocity * Time.deltaTime);
-
-
-        // set target speed based on move speed, sprint speed and if sprint is pressed
-        float targetSpeed = _inputManager.sprint ? sprintSpeed : playerSpeed;
-
-
     }
-
 
 }

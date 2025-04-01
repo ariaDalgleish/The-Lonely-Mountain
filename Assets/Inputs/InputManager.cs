@@ -4,8 +4,6 @@ public class InputManager : MonoBehaviour
 {
     private static InputManager _instance;
 
-    public bool sprint;
-
 
     public static InputManager Instance
     {
@@ -56,10 +54,11 @@ public class InputManager : MonoBehaviour
         return playerControls.Player.Jump.triggered;
     }
 
-    public void SprintInput(bool newSprintState)
+    public bool GetSprintInput()
     {
-        sprint = newSprintState;
+        return Input.GetKey(KeyCode.LeftShift); // Change this to the key you want to use for sprinting
     }
+    public bool sprint => GetSprintInput();
 
     //public bool IsCrouchKeyPressed()
     //{
