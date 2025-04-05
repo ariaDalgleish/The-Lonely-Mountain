@@ -18,19 +18,15 @@ public class SurvivalManager : MonoBehaviour
     [Header("Cold")]
     [SerializeField] private float _maxCold = 100f;
     [SerializeField] private float _coldDepletionRate = 1f;
+    [SerializeField] private float _coldReplenishRate = 2f; // New
     private float _currentCold;
     public float ColdPercent => _currentCold / _maxCold;
-    // Cold stats will be buffed with clothing and shelter
-    // Cold will be affected by weather and time of day
-    // Cold will affect fatigue and stamina
 
     [Header("Fatigue")]
     [SerializeField] private float _maxFatigue = 100f;
     [SerializeField] private float _fatigueDepletionRate = 1f;
     private float _currentFatigue;
     public float FatiguePercent => _currentFatigue / _maxFatigue;
-    // Fatigue is replenished by sleep, and little will be replenished by eating/resting
-    // Fatigue will affect max stamina
 
     [Header("Stamina")]
     [SerializeField] private float _maxStamina = 5f;
@@ -40,6 +36,8 @@ public class SurvivalManager : MonoBehaviour
     private float _currentStamina;
     private float _currentStaminaDelayCounter;
     public float StaminaPercent => _currentStamina / _maxStamina;
+
+    private bool _isInColdReplenishZone = false; // New
 
     private void Start()
     {
@@ -54,7 +52,17 @@ public class SurvivalManager : MonoBehaviour
     {
         _currentHunger -= _hungerDepletionRate * Time.deltaTime;
         _currentThirst -= _thirstDepletionRate * Time.deltaTime;
-        _currentCold -= _coldDepletionRate * Time.deltaTime;
+
+        if (_isInColdReplenishZone)
+        {
+            _currentCold += _coldReplenishRate * Time.deltaTime;
+            if (_currentCold > _maxCold) _currentCold = _maxCold;
+        }
+        else
+        {
+            _currentCold -= _coldDepletionRate * Time.deltaTime;
+        }
+
         _currentFatigue -= _fatigueDepletionRate * Time.deltaTime;
 
         if (_currentHunger <= 0 || _currentThirst <= 0)
@@ -62,7 +70,6 @@ public class SurvivalManager : MonoBehaviour
             //   OnPlayerDied?.Invoke();
             _currentHunger = 0;
             _currentThirst = 0;
-
         }
 
         if (InputManager.Instance.sprint)
@@ -71,12 +78,11 @@ public class SurvivalManager : MonoBehaviour
             if (_currentStamina <= 0) _currentStamina = 0;
             _currentStaminaDelayCounter = 0;
         }
-    
+
         if (!InputManager.Instance.sprint && _currentStamina < _maxStamina)
         {
             if (_currentStaminaDelayCounter < _staminaRechargeDelay)
                 _currentStaminaDelayCounter += Time.deltaTime;
-
 
             if (_currentStaminaDelayCounter >= _staminaRechargeDelay)
             {
@@ -93,6 +99,12 @@ public class SurvivalManager : MonoBehaviour
         if (_currentHunger > _maxHunger) _currentHunger = _maxHunger;
         if (_currentThirst > _maxThirst) _currentThirst = _maxThirst;
     }
+
+    public void SetColdReplenishZone(bool isInZone) // New
+    {
+        _isInColdReplenishZone = isInZone;
+    }
+
     public bool HasStamina()
     {
         return _currentStamina > 0;
