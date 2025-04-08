@@ -3166,6 +3166,18 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 3252679618559651689, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3928487837688611019, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241456706621139528, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6136370120499251014, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_Name
       value: UI

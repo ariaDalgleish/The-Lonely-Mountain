@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,7 +19,7 @@ public class SurvivalManager : MonoBehaviour
     [Header("Cold")]
     [SerializeField] private float _maxCold = 100f;
     [SerializeField] private float _coldDepletionRate = 1f;
-    [SerializeField] private float _coldReplenishRate = 2f; // New
+    [SerializeField] private float _coldReplenishRate = 2f; 
     private float _currentCold;
     public float ColdPercent => _currentCold / _maxCold;
 
@@ -37,7 +38,11 @@ public class SurvivalManager : MonoBehaviour
     private float _currentStaminaDelayCounter;
     public float StaminaPercent => _currentStamina / _maxStamina;
 
-    private bool _isInColdReplenishZone = false; // New
+    public event Action OnHungerDepleted;
+    public event Action OnThirstDepleted;
+
+
+    private bool _isInColdReplenishZone = false; 
 
     private void Start()
     {
