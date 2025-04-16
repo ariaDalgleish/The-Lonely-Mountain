@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+// This script manages the in-game time system, including updating the time of day, rotating the sun, 
+// adjusting lighting settings, and blending the skybox for day-night transitions.
+
 public class TimeManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timeText;
@@ -18,12 +21,17 @@ public class TimeManager : MonoBehaviour
     [SerializeField] Volume volume;
     [SerializeField] Material skyboxMaterial;
 
-    ColorAdjustments colorAdjustments;
-
     [SerializeField] TimeSettings timeSettings;
 
+    ColorAdjustments colorAdjustments;
+
+    // Service that handles time progression and sun angle calculations. 
     TimeService service;
 
+
+    /// <summary>
+    /// Initializes the TimeService and retrieves the ColorAdjustments component from the post-processing volume.
+    /// </summary>
     private void Start()
     {
         service = new TimeService(timeSettings);
@@ -31,11 +39,15 @@ public class TimeManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Updates the time of day, rotates the sun, adjusts lighting settings, and handles time multiplier controls.
+    /// </summary>
     void Update()
     {
         UpdateTimeOfDay();
         RotateSun();
-        UpdateLightSettings();  
+        UpdateLightSettings();
+        UpdateSkyBlend();
 
         // Keycodes to control time for experimenting!
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -48,6 +60,19 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the skybox blend based on the sun's position.
+    /// </summary>
+    void UpdateSkyBlend()
+    {
+        float dotProduct = Vector3.Dot(sun.transform.forward, Vector3.up);
+        float blend = Mathf.Lerp(0, 1, lightIntensityCurve.Evaluate(dotProduct));
+        skyboxMaterial.SetFloat("_Blend", blend);
+    }
+
+    /// <summary>
+    /// Adjusts the intensity of the sun and moon lights and the ambient light color based on the time of day.
+    /// </summary>
     void UpdateLightSettings()
     {
         float dotProduct = Vector3.Dot(sun.transform.forward, Vector3.down);
@@ -56,7 +81,11 @@ public class TimeManager : MonoBehaviour
         if (colorAdjustments == null) return;
         colorAdjustments.colorFilter.value = Color.Lerp(nightAmbientLight, dayAmbientLight, lightIntensityCurve.Evaluate(dotProduct));
     }
-    
+
+    /// <summary>
+    /// Rotates the sun based on the calculated sun angle from the TimeService.
+    /// </summary>
+
     void RotateSun() 
     { 
         float rotation = service.CalculateSunAngle();
@@ -64,7 +93,9 @@ public class TimeManager : MonoBehaviour
 
     }
 
-    // updating the time service every update
+    /// <summary>
+    /// Updates the TimeService and displays the current time in the UI.
+    /// </summary>
     void UpdateTimeOfDay()
     {
         service.UpdateTime(Time.deltaTime);
