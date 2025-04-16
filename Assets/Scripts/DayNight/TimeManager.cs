@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -22,6 +23,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] Material skyboxMaterial;
 
     [SerializeField] TimeSettings timeSettings;
+
 
     ColorAdjustments colorAdjustments;
 
