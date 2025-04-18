@@ -4,17 +4,18 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - FireInteraction
   - ManualPointLight
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interactable
   - Water
   - UI
   - Snow
   - Fire
-  - 
+  - Player
   - 
   - 
   - 

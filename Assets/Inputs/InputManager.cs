@@ -60,6 +60,11 @@ public class InputManager : MonoBehaviour
     }
     public bool sprint => GetSprintInput();
 
+    public bool IsInteractKeyPressed()
+    {
+        return playerControls.Player.Interact.triggered;
+    }
+
     //public bool IsCrouchKeyPressed()
     //{
     //    return playerControls.Player.Crouch.triggered;

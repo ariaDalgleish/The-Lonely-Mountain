@@ -74,7 +74,7 @@ public class SurvivalManager : MonoBehaviour
     */
 
 
-    private bool _isInColdReplenishZone = false;
+    private bool _inWarmZone = false;
     private int _previousCriticalStatsCount = -1; // Initialize to -1 to ensure the first log is triggered
     private float _previousHealthDepletionRate = -1f; // Initialize to -1 to ensure the first log is triggered
 
@@ -101,7 +101,7 @@ public class SurvivalManager : MonoBehaviour
         // Update survival stats
         _currentHunger = DepleteStat(_currentHunger, _hungerDepletionRate, Time.deltaTime);
         _currentThirst = DepleteStat(_currentThirst, _thirstDepletionRate, Time.deltaTime);
-        _currentCold = _isInColdReplenishZone
+        _currentCold = _inWarmZone 
             ? Mathf.Min(_currentCold + _coldReplenishRate * Time.deltaTime, _maxCold)
             : DepleteStat(_currentCold, _coldDepletionRate, Time.deltaTime);
         _currentFatigue = DepleteStat(_currentFatigue, _fatigueDepletionRate, Time.deltaTime);
@@ -235,7 +235,7 @@ public class SurvivalManager : MonoBehaviour
     /// <param name="isWearingWarmClothing">True if the player is wearing warm clothing.</param>
     public void UpdateColdReplenishment(bool isNearFire, bool isWearingWarmClothing)
     {
-        _isInColdReplenishZone = isNearFire || isWearingWarmClothing;
+        _inWarmZone = isNearFire || isWearingWarmClothing;
     }
 
 

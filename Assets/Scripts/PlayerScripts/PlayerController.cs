@@ -35,14 +35,21 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
     }
 
+
+
     void Update()
     {
+        if (_inputManager.IsInteractKeyPressed())
+        {
+            PlayerInteract();
+            Debug.Log("Interact Key Pressed");
+        }
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
-
 
         // Get movement input from input manager
         Vector2 movement = _inputManager.GetMovementInput();
@@ -50,10 +57,18 @@ public class PlayerController : MonoBehaviour
         currentInputVector = Vector2.SmoothDamp(currentInputVector, movement, ref smoothInputVelocity, smoothInputSpeed);
         // Move the player based on the input vector
         Vector3 move = new Vector3(currentInputVector.x, 0f, currentInputVector.y);
-        // Move the player relative to the camera direction 
-        move = _cameraTransform.forward * move.z + _cameraTransform.right * move.x;
-        // Set the player's y velocity to 0
-        move.y = 0f;
+
+        // Project the camera's forward direction onto the horizontal plane
+        Vector3 cameraForward = _cameraTransform.forward;
+        cameraForward.y = 0f; // Remove the vertical component
+        cameraForward.Normalize(); // Normalize to ensure consistent movement speed
+
+        Vector3 cameraRight = _cameraTransform.right;
+        cameraRight.y = 0f; // Remove the vertical component
+        cameraRight.Normalize();
+
+        // Move the player relative to the camera direction
+        move = cameraForward * move.z + cameraRight * move.x;
 
         // Check for sprint input and adjust speed
         float currentSpeed = _inputManager.GetSprintInput() && _survivalManager.HasStamina() ? sprintSpeed : playerSpeed;
@@ -64,6 +79,23 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         // Move the player based on the player velocity
         controller.Move(playerVelocity * Time.deltaTime);
+    }
+
+
+    public void PlayerInteract()
+    {
+        var layermask0 = 1 << 0; // Default
+        var layermask3 = 1 << 3; // Interactable
+        var finalmask = layermask0 | layermask3;
+
+        RaycastHit hit;
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+        if (Physics.Raycast(ray, out hit, 4f, finalmask)) // Range
+        {
+            Interact interactScript = hit.transform.GetComponent<Interact>();
+            if (interactScript) interactScript.CallInteract(this);          
+        }
     }
 
 }
