@@ -5,10 +5,10 @@ public class WarmZone : MonoBehaviour
     public enum ZoneType { Fire, Shelter }
 
     [SerializeField] private ZoneType zoneType;
-    [SerializeField] private bool isFireZone = false; // Indicates if this zone is a fire-based warm zone.
+    //[SerializeField] private bool isFireZone = false; // Indicates if this zone is a fire-based warm zone.
     [SerializeField] private float checkRadius = 3f; // Radius to check for the player
     [SerializeField] private LayerMask playerLayer; // Layer mask to identify the player
-    [SerializeField] private float coldReplenishRate = 1f; // Rate at which cold is replenished
+    //[SerializeField] private float coldReplenishRate = 1f; // Rate at which cold is replenished
 
     private bool isFireLit = false; // Tracks if the fire is lit
     private SurvivalManager playerSurvivalManager;
