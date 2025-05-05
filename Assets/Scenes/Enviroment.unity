@@ -278,11 +278,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
-  _healthRegenRate: 5
+  _healthRegenRate: 1
   _maxHunger: 100
-  _hungerDepletionRate: 1
+  _hungerDepletionRate: 0
   _maxThirst: 100
-  _thirstDepletionRate: 1
+  _thirstDepletionRate: 0
   _maxCold: 50
   _coldDepletionRate: 1
   _coldReplenishRate: 3
@@ -1059,10 +1059,74 @@ PrefabInstance:
       propertyPath: m_FillAmount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1638234509043757275, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3031144474193833701, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.0927156
+      objectReference: {fileID: 0}
+    - target: {fileID: 3031144474193833701, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.0927156
+      objectReference: {fileID: 0}
+    - target: {fileID: 3031144474193833701, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0927156
+      objectReference: {fileID: 0}
+    - target: {fileID: 3031144474193833701, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -48.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3031144474193833701, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -430.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476421074682510184, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 026cf59f653f6c64cafb73e4531514b2, type: 3}
+    - target: {fileID: 3476421074682510184, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476421074682510184, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476421074682510184, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3485796334840020410, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1034521
+      objectReference: {fileID: 0}
+    - target: {fileID: 3485796334840020410, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.1034521
+      objectReference: {fileID: 0}
+    - target: {fileID: 3485796334840020410, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.1034521
+      objectReference: {fileID: 0}
     - target: {fileID: 3603164054381993359, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: _survivalManager
       value: 
       objectReference: {fileID: 2371653238798206171}
+    - target: {fileID: 6238719551535998937, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1034521
+      objectReference: {fileID: 0}
+    - target: {fileID: 6238719551535998937, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.1034521
+      objectReference: {fileID: 0}
+    - target: {fileID: 6238719551535998937, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.1034521
+      objectReference: {fileID: 0}
     - target: {fileID: 7496267298427103213, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_Name
       value: UI
@@ -1106,6 +1170,18 @@ PrefabInstance:
     - target: {fileID: 8804271782305062859, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094609874071916533, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094609874071916533, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094609874071916533, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
