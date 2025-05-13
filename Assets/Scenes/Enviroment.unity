@@ -286,9 +286,10 @@ MonoBehaviour:
   _maxCold: 50
   _coldDepletionRate: 1
   _coldReplenishRate: 3
-  _maxFatigue: 1000
-  _fatigueDepletionRate: 1
-  _maxStamina: 4
+  _maxFatigue: 100
+  _fatigueDepletionRate: 0.2
+  _fatigueFromStaminaUsage: 0.5
+  _baseMaxStamina: 4
   _staminaDepletionRate: 1
   _staminaRechargeRate: 0.5
   _staminaRechargeDelay: 1
@@ -1107,6 +1108,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.8352941
       objectReference: {fileID: 0}
+    - target: {fileID: 1629913739777187101, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1638234509043757275, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1116,8 +1121,24 @@ PrefabInstance:
       value: 0.3764706
       objectReference: {fileID: 0}
     - target: {fileID: 2762833972421593869, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7675774
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762833972421593869, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7675774
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762833972421593869, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7675774
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762833972421593869, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -148.1
+      value: -143.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762833972421593869, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -488.3
       objectReference: {fileID: 0}
     - target: {fileID: 2980696317169596033, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_Color.a
@@ -1213,23 +1234,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7134118427331791329, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.94592327
+      value: 0.8305946
       objectReference: {fileID: 0}
     - target: {fileID: 7134118427331791329, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.94592327
+      value: 0.8305946
       objectReference: {fileID: 0}
     - target: {fileID: 7134118427331791329, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.94592327
+      value: 0.8305946
       objectReference: {fileID: 0}
     - target: {fileID: 7134118427331791329, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -151.1
+      value: -147.2
       objectReference: {fileID: 0}
     - target: {fileID: 7134118427331791329, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -430.9
+      value: -435.3
       objectReference: {fileID: 0}
     - target: {fileID: 7296886180781816138, guid: 8626e413a290724419db9be2b2c07d2c, type: 3}
       propertyPath: m_Shadows.m_Strength
