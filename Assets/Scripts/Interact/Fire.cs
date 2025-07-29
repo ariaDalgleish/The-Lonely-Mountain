@@ -6,6 +6,8 @@ public class Fire : MonoBehaviour
     public Interact openFromInteraction;
 
     [SerializeField] private GameObject baseFire;
+    [SerializeField] private AudioSource fireLoopSource; // assign in inspector, for ambient fire
+
 
     // Fire state
     private bool isFireOn = false;
@@ -14,6 +16,7 @@ public class Fire : MonoBehaviour
 
     private void OnEnable()
     {
+        //SoundManager.PlaySound(SoundType.StartFire);
         // Subscribe to the interaction event if the Interact component is assigned
         if (openFromInteraction != null)
         {
@@ -24,6 +27,8 @@ public class Fire : MonoBehaviour
 
     private void OnDisable()
     {
+        //SoundManager.PlaySound(SoundType.Menu);
+
         // Unsubscribe from the interaction event to avoid memory leaks
         if (openFromInteraction != null)
         {
@@ -35,7 +40,7 @@ public class Fire : MonoBehaviour
     {
         // Toggle the fire state when the interaction event is triggered
         ToggleFire();
-        SoundManager.PlaySound(SoundType.StartFire);
+
     }
 
     private void ToggleFire()
@@ -44,7 +49,29 @@ public class Fire : MonoBehaviour
         isFireOn = !isFireOn;
 
         // Play the fire sound effect and disable the fire sound if the fire is off
-        
+        if (isFireOn)
+        {
+            // Fire enabled sound
+            SoundManager.PlaySound(SoundType.FIREMATCH);
+
+            // Start ambient fire sound
+            if (fireLoopSource != null && fireLoopSource.clip != null)
+            {
+                fireLoopSource.loop = true;
+                fireLoopSource.Play();
+            }
+        }
+        else
+        {
+            // Fire disabled sound
+            SoundManager.PlaySound(SoundType.FIRESTOP);
+
+            // Stop ambient fire sound
+            if (fireLoopSource != null)
+            {
+                fireLoopSource.Stop();
+            }
+        }
 
 
         // Enable or disable the fire particle effect

@@ -4,63 +4,86 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video; // Add this
 
 public class MainMenuManager : MonoBehaviour
 {
-    [Header("Main Menu Objects")]
     [SerializeField] private GameObject _loadingBarObject;
     [SerializeField] private Image _loadingBar;
-    [SerializeField] private GameObject[] _objectsToHide;
+    [SerializeField] private GameObject[] _menuObjects;
+    [SerializeField] private VideoPlayer introVideoPlayer; // Assign in Inspector
 
-    [Header("Scenes to Load")]
+    [Header("Scenes To Load")]
     [SerializeField] private SceneField _persistentGameplay;
     [SerializeField] private SceneField _levelScene;
-
-    private List<AsyncOperation> _scenesToLoad = new List<AsyncOperation>();
 
     private void Awake()
     {
         _loadingBarObject.SetActive(false);
+        if (introVideoPlayer != null)
+            introVideoPlayer.gameObject.SetActive(false);
     }
 
     public void StartGame()
     {
-        //hide button and text
-        // start lkoading scenes we need
-        // update the loading bar
-
         HideMenu();
+        _loadingBarObject.SetActive(false);
 
-        _loadingBarObject.SetActive(true);
+        if (introVideoPlayer != null)
+        {
+            introVideoPlayer.gameObject.SetActive(true);
+            introVideoPlayer.loopPointReached += OnIntroVideoFinished;
+            introVideoPlayer.Play();
+        }
+        else
+        {
+            LoadScenes();
+        }
+    }
 
-        _scenesToLoad.Add(SceneManager.LoadSceneAsync(_persistentGameplay));
-        _scenesToLoad.Add(SceneManager.LoadSceneAsync(_levelScene, LoadSceneMode.Additive));
-        // Additive to load scenes at the same time
-        // Async to load scenes in the background
+    private void OnIntroVideoFinished(VideoPlayer vp)
+    {
+        vp.loopPointReached -= OnIntroVideoFinished;
+        vp.gameObject.SetActive(false);
+        LoadScenes();
+    }
 
-        StartCoroutine(ProgressLoadingBar());
-
+    private void LoadScenes()
+    {
+        SceneManager.LoadSceneAsync(_persistentGameplay.SceneName);
+        SceneManager.LoadSceneAsync(_levelScene.SceneName, LoadSceneMode.Additive);
     }
 
     private void HideMenu()
     {
-        for (int i = 0; i < _objectsToHide.Length; i++)
+        for (int i = 0; i < _menuObjects.Length; i++)
         {
-            _objectsToHide[i].SetActive(false);
+            _menuObjects[i].SetActive(false);
         }
     }
 
-    private IEnumerator ProgressLoadingBar()
+    //private IEnumerator ProgressLoadingBar()
+    //{
+    //    float loadProgress = 0f;
+    //    for (int i = 0; i < _scenesToLoad.Count; i++)
+    //    {
+    //        while(!_scenesToLoad[i].isDone)
+    //        {
+    //            loadProgress += _scenesToLoad[i].progress;
+    //            _loadingBar.fillAmount = loadProgress / _scenesToLoad.Count;
+    //            yield return null;
+    //        }
+    //    }
+    //}
+
+    public void LoadGame()
     {
-        float loadProgress = 0f;
-        for (int i = 0; i < _scenesToLoad.Count; i++)
-        {
-            while (!_scenesToLoad[i].isDone)
-            {
-                loadProgress += _scenesToLoad[i].progress;
-                _loadingBar.fillAmount = loadProgress;
-                yield return null;
-            }
-        }
+
     }
+
+    public void QuitGame()
+    {
+
+    }
+
 }

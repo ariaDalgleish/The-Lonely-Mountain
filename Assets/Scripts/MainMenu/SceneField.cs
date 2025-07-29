@@ -9,13 +9,13 @@ using UnityEditor;
 public class SceneField
 {
     [SerializeField]
-    private Object m_SceneAsset;
+    private Object _sceneAsset;
 
     [SerializeField]
-    private string m_SceneName = "";
+    private string _sceneName = "";
     public string SceneName
     {
-        get { return m_SceneName; }
+        get { return _sceneName; }
     }
 
     // makes it work with the existing Unity methods (LoadLevel/LoadScene)
@@ -33,8 +33,8 @@ public class SceneFieldPropertyDrawer : PropertyDrawer
     public override void OnGUI(Rect _position, SerializedProperty _property, GUIContent _label)
     {
         EditorGUI.BeginProperty(_position, GUIContent.none, _property);
-        SerializedProperty sceneAsset = _property.FindPropertyRelative("m_SceneAsset");
-        SerializedProperty sceneName = _property.FindPropertyRelative("m_SceneName");
+        SerializedProperty sceneAsset = _property.FindPropertyRelative("_sceneAsset");
+        SerializedProperty sceneName = _property.FindPropertyRelative("_sceneName");
         _position = EditorGUI.PrefixLabel(_position, GUIUtility.GetControlID(FocusType.Passive), _label);
         if (sceneAsset != null)
         {

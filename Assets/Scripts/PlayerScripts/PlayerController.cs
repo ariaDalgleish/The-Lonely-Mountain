@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
     private float gravityValue = -9.81f;
     [SerializeField]
     private float smoothInputSpeed = .2f;
-    [SerializeField]
-    private bool useFootSteps = true;
+    //[SerializeField]
+    //private bool useFootSteps = true;
 
     private SurvivalManager _survivalManager;
     private CharacterController controller;
