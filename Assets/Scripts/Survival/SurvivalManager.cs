@@ -67,6 +67,10 @@ public class SurvivalManager : MonoBehaviour
     [SerializeField] private bool showDebugText = true;
     #endregion
 
+    #region Death
+    private bool _playerHasDied = false;
+    #endregion
+
     private void Start()
     {
         #region Initialization
@@ -226,7 +230,11 @@ public class SurvivalManager : MonoBehaviour
 
     private void HandlePlayerDeath()
     {
-        Debug.Log("Player has died.");
+        if (!_playerHasDied)
+        {
+            Debug.Log("Player has died.");
+            _playerHasDied = true;
+        }
     }
 
     public void UpdateColdReplenishment(bool isNearFire, bool underShelter)
