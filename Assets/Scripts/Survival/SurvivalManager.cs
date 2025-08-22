@@ -218,7 +218,7 @@ public class SurvivalManager : MonoBehaviour
         #endregion
     }
 
-    private void RegenerateHealth()
+    public void RegenerateHealth()
     {
         #region Health Regeneration
         if (_currentHealth < _maxHealth)
@@ -226,6 +226,13 @@ public class SurvivalManager : MonoBehaviour
             _currentHealth = Mathf.Min(_currentHealth + _healthRegenRate * Time.deltaTime, _maxHealth);
         }
         #endregion
+    }
+
+    // Add this public method to SurvivalManager to allow increasing health safely.
+    public void AddHealth(float amount)
+    {
+        // Clamp to max health
+        _currentHealth = Mathf.Min(_currentHealth + amount, _maxHealth);
     }
 
     private void HandlePlayerDeath()
