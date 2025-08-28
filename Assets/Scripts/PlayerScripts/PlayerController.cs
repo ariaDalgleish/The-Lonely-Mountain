@@ -57,9 +57,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //if (useFootSteps) HandleFootsteps();
-        
-            
-        
+
 
         if (_inputManager.IsInteractKeyPressed())
         {
@@ -138,6 +136,9 @@ public class PlayerController : MonoBehaviour
         }
     }
     */
+
+
+
 
     public void PlayerInteract()
     {

@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 public class CH_Inventory : MonoBehaviour
 {
+    /*
     private PlayerController playerController;
     private SurvivalManager survivalManager;
 
@@ -304,14 +305,15 @@ public class CH_Inventory : MonoBehaviour
      
 
         GUI.Label(new Rect(60, 150, 100, 20), "Money: " + 0);
-        GUI.Label(new Rect(60, 150, 100, 20), "Money: " + 0 /*Stats.GetMoney()*/);
+        GUI.Label(new Rect(60, 150, 100, 20), "Money: " + 0 Stats.GetMoney());
 
-
+     
         // Create rows and columns for the inventory slots
         // Find the location of each inventory slot and store it inside the previously created InventorySet array.
         // First, check if InventorySlot with a specific index number exists
         // If exists, next step is storying its location in the inside location variable of the specific InventorySlot
         // Check if the mouse is over this slot and the user to trying to drag the object out of the slot.
+        
         scrollPosition = GUI.BeginScrollView(new Rect(0, 200, 200, 100), scrollPosition, new Rect(0, 0, 300, 120));
         counter = 0;
         for (int i = 0; i < 10; i ++)
@@ -504,6 +506,7 @@ class DraggableObject
      public Texture icon;
      public string Type;
 }
-   
+*/
+}
 
 
