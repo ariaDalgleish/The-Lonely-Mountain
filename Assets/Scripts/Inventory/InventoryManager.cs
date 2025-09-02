@@ -30,4 +30,11 @@ public class InventoryManager : MonoBehaviour
             menuActivated = true;
         }
     }
+
+
+    public void AddItem(string itemName, int quantity, Sprite itemSprite)
+    {
+       
+        Debug.Log($"Added {quantity} of {itemName} to inventory.");
+    }
 }
