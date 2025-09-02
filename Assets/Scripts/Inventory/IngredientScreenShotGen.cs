@@ -12,10 +12,10 @@ public class IngredientScreenShotGen : MonoBehaviour
     public Ingredient[] ingredients;
     private void Start()
     {
-        // for (int i = 0; i < ingredientsToScreenShot.Length; i++)
-        // {
-        //     CreateMyAsset(ingredientsToScreenShot[i].gameObject.name);   
-        // }
+        //for (int i = 0; i < ingredientsToScreenShot.Length; i++)
+        //{
+        //    CreateMyAsset(ingredientsToScreenShot[i].gameObject.name);   
+        //}
         StartCoroutine(GenerateScreenShots());
         //ApplySprites();
     }
@@ -27,6 +27,9 @@ public class IngredientScreenShotGen : MonoBehaviour
             item.gameObject.SetActive(true);
             yield return new WaitForSeconds(.5f);
             currentIngredient = item.ingredient;
+
+            ScreenshotHandler.instance.iconName = currentIngredient.name;
+
             ScreenshotHandler.TakeScreenshot_Static(512,512);
             EditorUtility.SetDirty(currentIngredient);
             
@@ -39,7 +42,7 @@ public class IngredientScreenShotGen : MonoBehaviour
     {
         foreach (Ingredient item in ingredients)
         {
-            item.ingredientIcon =  (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/Ingredients/Icons/"+item.name, typeof(Sprite));
+            item.ingredientIcon =  (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Resources/Items/Icons/"+item.name, typeof(Sprite));
             EditorUtility.SetDirty(item);
         }
         AssetDatabase.SaveAssets();
@@ -48,7 +51,7 @@ public class IngredientScreenShotGen : MonoBehaviour
     {
         Ingredient asset = ScriptableObject.CreateInstance<Ingredient>();
 
-        AssetDatabase.CreateAsset(asset,"Assets/Art/Ingredients/"+i.Replace(" ", "")+".asset");
+        AssetDatabase.CreateAsset(asset,"Assets/Resources/Items/"+i.Replace(" ", "")+".asset");
         AssetDatabase.SaveAssets();
 
         EditorUtility.FocusProjectWindow();

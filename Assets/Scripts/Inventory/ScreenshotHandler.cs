@@ -12,7 +12,7 @@ namespace TJ
     }
 public class ScreenshotHandler : MonoBehaviour
 {
-    private static ScreenshotHandler instance;
+    public static ScreenshotHandler instance;
     public Camera myCamera;
     private bool takeScreenshotOnNextFrame;
     public string iconName;
@@ -22,7 +22,8 @@ public class ScreenshotHandler : MonoBehaviour
             instance = this;
             myCamera = gameObject.GetComponent<Camera>();
             generator = Object.FindFirstObjectByType<IngredientScreenShotGen>();
-            myCamera.backgroundColor = Color.black;
+            myCamera.clearFlags = CameraClearFlags.SolidColor;
+            myCamera.backgroundColor = new Color(0, 0, 0, 0);
         }
     public IEnumerator OnPostRender()
     {
@@ -37,14 +38,15 @@ public class ScreenshotHandler : MonoBehaviour
             //used to be 0,0 for bottom left corner, moving it to get center of screen, should have probably just made the screen size 512 by 512
             Rect rect = new Rect((1920-renderTexture.width)/2, (1080-renderTexture.height)/2, renderTexture.width, renderTexture.height);
             renderResult.ReadPixels(rect, 0, 0);
-            
-            #region yoinked from battledrake https://www.youtube.com/watch?v=ZXYyX80F6CU
+
+                #region yoinked from battledrake https://www.youtube.com/watch?v=ZXYyX80F6CU
             Color[] pixels = renderResult.GetPixels(0, 0, renderTexture.width, renderTexture.height);
             for (int i = 0; i < pixels.Length; i++)
             {
-                if (pixels[i] == Color.black) 
+                // Use a threshold for "almost black"
+                if (pixels[i].r < 0.01f && pixels[i].g < 0.01f && pixels[i].b < 0.01f)
                 {
-                    pixels[i] = Color.clear;
+                    pixels[i] = new Color(0, 0, 0, 0); // Transparent
                 }
             }
             renderResult.SetPixels(0, 0, renderTexture.width, renderTexture.height, pixels);
@@ -54,10 +56,10 @@ public class ScreenshotHandler : MonoBehaviour
             #endregion
 
             byte[] byteArray = renderResult.EncodeToPNG();
-            System.IO.File.WriteAllBytes(generator.GetFileName()+".png", byteArray);
+            System.IO.File.WriteAllBytes("Assets/Resources/Items/Icons/" + iconName + ".png", byteArray);
             RenderTexture.ReleaseTemporary(renderTexture);
             myCamera.targetTexture = null;
-            Debug.Log(generator.GetFileName()+".png created");
+            Debug.Log("Assets/Resources/Items/Icons/" + iconName + ".png created");
         }
     }
     private void TakeScreenshot(int width, int height){
