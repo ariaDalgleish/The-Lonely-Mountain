@@ -29,7 +29,7 @@ public class Item : MonoBehaviour
     }
     private void HandleInteraction()
     {
-        Debug.Log($"Picked up {quantity} of {itemName}.");
+        
         inventoryManager.AddItem(itemName, quantity, itemSprite);
         Destroy(gameObject);
 
