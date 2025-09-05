@@ -29,7 +29,7 @@ public class Item : MonoBehaviour
     }
     private void HandleInteraction()
     {
-        
+        SoundManager.PlaySound(SoundType.PICKUPITEM);
         inventoryManager.AddItem(itemName, quantity, itemSprite);
         Destroy(gameObject);
 

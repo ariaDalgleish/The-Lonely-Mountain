@@ -70,6 +70,8 @@ public class SurvivalManager : MonoBehaviour
     #region Death
     private bool _playerHasDied = false;
     #endregion
+    
+    private bool _hasShivered = false;
 
     private void Start()
     {
@@ -148,6 +150,19 @@ public class SurvivalManager : MonoBehaviour
         {
             // Deplete cold when not in a warm zone
             _currentCold = DepleteStat(_currentCold, _coldDepletionRate, Time.deltaTime);
+        }
+
+        // Play "SHIVER" sound if cold is below 50% and hasn't played yet
+        if (ColdPercent < 0.5f && !_hasShivered)
+        {
+            // Replace with your actual sound manager call
+            SoundManager.PlaySound(SoundType.SHIVER);
+            _hasShivered = true;
+        }
+        // Reset flag if cold goes above 50%
+        else if (ColdPercent >= 0.5f)
+        {
+            _hasShivered = false;
         }
         #endregion
     }

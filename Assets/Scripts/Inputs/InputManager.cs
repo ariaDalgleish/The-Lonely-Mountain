@@ -80,7 +80,7 @@ public class InputManager : MonoBehaviour
 
     public bool CloseInventory()
     {
-        return playerControls.Player.Escape.triggered;
+        return playerControls.Player.Tab.triggered;
     }
 
 }
