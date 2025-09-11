@@ -11,6 +11,10 @@ public class Item : MonoBehaviour
     [SerializeField]
     private Sprite itemSprite;
 
+    [TextArea]
+    [SerializeField]
+    private string itemDescription;
+
     private InventoryManager inventoryManager;
     public Interact openFromInteraction;
     private void OnEnable()
@@ -30,7 +34,7 @@ public class Item : MonoBehaviour
     private void HandleInteraction()
     {
         SoundManager.PlaySound(SoundType.PICKUPITEM);
-        inventoryManager.AddItem(itemName, quantity, itemSprite);
+        inventoryManager.AddItem(itemName, quantity, itemSprite, itemDescription);
         Destroy(gameObject);
 
     }

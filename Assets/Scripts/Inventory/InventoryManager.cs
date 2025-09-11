@@ -23,6 +23,10 @@ public class InventoryManager : MonoBehaviour
             Time.timeScale = 1f;
             InventoryMenu.SetActive(false);
             menuActivated = false;
+            // mouse cursor invisible and locked to center of screen
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
 
         }
         else if (InputManager.Instance.OpenInventory() && !menuActivated)
@@ -31,11 +35,14 @@ public class InventoryManager : MonoBehaviour
             Time.timeScale = 0f;
             InventoryMenu.SetActive(true);
             menuActivated = true;
+            // mouse cursor visible and unlocked to move freely
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
 
-    public void AddItem(string itemName, int quantity, Sprite itemSprite)
+    public void AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
     {
        
         Debug.Log($"Added {quantity} of {itemName} to inventory.");
@@ -43,10 +50,19 @@ public class InventoryManager : MonoBehaviour
         {
             if(itemSlot[i].isFull == false)
             {
-                itemSlot[i].AddItem(itemName, quantity, itemSprite);
+                itemSlot[i].AddItem(itemName, quantity, itemSprite, itemDescription);
                 return;
             }
         }
 
+    }
+
+    public void DeselectAllSlots()
+    {
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            itemSlot[i].selectedShader.SetActive(false);
+            itemSlot[i].thisItemSelected = false;
+        }   
     }
 }

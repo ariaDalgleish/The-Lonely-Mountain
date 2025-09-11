@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad99e6079f456eb40bb27b466d2d50b2, type: 3}
   m_Name: Stick_Item
   m_EditorClassIdentifier: 
-  ingredientIcon: {fileID: 0}
+  ingredientIcon: {fileID: 21300000, guid: 60b9839e3b9e7d5468d4234d7e673028, type: 3}
