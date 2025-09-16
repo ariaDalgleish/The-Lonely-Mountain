@@ -6,44 +6,54 @@ public class SurvivalManager : MonoBehaviour
 {
     #region Health
     [Header("Health")]
-    [SerializeField] private float _maxHealth = 100f;
+    public float _currentHealth;
+    [SerializeField] public float _maxHealth = 100f;
     [SerializeField] private float _healthRegenRate = 5f;
-    private float _currentHealth;
-    public float HealthPercent => _currentHealth / _maxHealth;
+    public float HealthPercent => _currentHealth / _maxHealth; // Public getter for health percentage
     #endregion
 
     #region Hunger
     [Header("Hunger")]
-    [SerializeField] private float _maxHunger = 100f;
-    [SerializeField] private float _hungerDepletionRate = 2f;
-    private float _currentHunger;
+    public float _currentHunger;
+    [SerializeField] public float _maxHunger = 100f;
+    //[SerializeField] private float _hungerDepletionRate = 2f;
+    private float hungerDepleteTimer = 0f; // timer to track hunger depletion
+    [SerializeField] private float hungerDepleteInterval = 2.5f; // seconds
+    [SerializeField] private float hungerDepleteAmount = 1f; // amount to deplete each interval
     public float HungerPercent => _currentHunger / _maxHunger;
     #endregion
 
     #region Thirst
     [Header("Thirst")]
-    [SerializeField] private float _maxThirst = 100f;
-    [SerializeField] private float _thirstDepletionRate = 1f;
-    private float _currentThirst;
+    public float _currentThirst;
+    [SerializeField] public float _maxThirst = 100f;
+   // [SerializeField] private float _thirstDepletionRate = 5f;
+    private float thirstDepleteTimer = 0f; // timer to track hunger depletion
+    [SerializeField] private float thirstDepleteInterval = 5f; // seconds
+    [SerializeField] private float thirstDepleteAmount = 1f; // amount to deplete each interval
     public float ThirstPercent => _currentThirst / _maxThirst;
     #endregion
 
     #region Cold
     [Header("Cold")]
-    [SerializeField] private float _maxCold = 100f;
+    public float _currentCold;
+    [SerializeField] public float _maxCold = 100f;
     [SerializeField] private float _coldDepletionRate = 1f;
     [SerializeField] private float _coldReplenishRate = 2f;
-    private float _currentCold;
     private bool _inWarmZone = false; // Tracks if the player is in a warm zone
-    public float ColdPercent => _currentCold / _maxCold;
+    public float ColdPercent => _currentCold / _maxCold; // Public getter for cold percentage
     #endregion
 
     #region Fatigue
     [Header("Fatigue")]
-    [SerializeField] private float _maxFatigue = 100f;
-    [SerializeField] private float _fatigueDepletionRate = 1f;
+    public float _currentFatigue;
+    [SerializeField] public float _maxFatigue = 100f;
+   // [SerializeField] private float _fatigueDepletionRate = 1f;
     [SerializeField] private float _fatigueFromStaminaUsage = 0.5f; // Fatigue penalty for stamina usage
-    private float _currentFatigue;
+  
+    private float fatigueDepleteTimer = 0f; // timer to track hunger depletion
+    [SerializeField] private float fatigueDepleteInterval = 3f; // seconds
+    [SerializeField] private float fatigueDepleteAmount = 1f; // amount to deplete each interval
     public float FatiguePercent => _currentFatigue / _maxFatigue;
     #endregion
 
@@ -84,7 +94,7 @@ public class SurvivalManager : MonoBehaviour
         _currentHealth = _maxHealth;
         #endregion
     }
-
+   
     private void Update()
     {
         #region Update Stats
@@ -96,13 +106,42 @@ public class SurvivalManager : MonoBehaviour
         #endregion
     }
 
-    private void UpdateStats()
+    private int GetCriticalStatsCount()
     {
-        // Deplete fatigue and hunger over time
-        #region Depletion
-        _currentFatigue = DepleteStat(_currentFatigue, _fatigueDepletionRate, Time.deltaTime);
-        _currentHunger = DepleteStat(_currentHunger, _hungerDepletionRate, Time.deltaTime);
-        _currentThirst = DepleteStat(_currentThirst, _thirstDepletionRate, Time.deltaTime);
+        #region Critical Stats
+        int criticalStatsCount = 0;
+        if (_currentHunger <= 0) criticalStatsCount++;
+        if (_currentThirst <= 0) criticalStatsCount++;
+        if (_currentCold <= 0) criticalStatsCount++;
+        if (_currentFatigue <= 0) criticalStatsCount++;
+        return criticalStatsCount;
+        #endregion
+    }
+    private void UpdateStats() // Update hunger, thirst, and fatigue over time
+    {
+        #region Deplete Stats Over Time
+        
+        hungerDepleteTimer += Time.deltaTime; // Increment timer
+        if (hungerDepleteTimer >= hungerDepleteInterval) // Check if it's time to deplete hunger
+        {
+            _currentHunger = Mathf.Max(_currentHunger - hungerDepleteAmount, 0); // Deplete hunger and clamp to 0 
+            hungerDepleteTimer = 0f; // Reset timer
+        }
+
+        thirstDepleteTimer += Time.deltaTime;
+        if (thirstDepleteTimer >= thirstDepleteInterval)
+        {
+            _currentThirst = Mathf.Max(_currentThirst - thirstDepleteAmount, 0);
+            thirstDepleteTimer = 0f;
+        }
+        
+        fatigueDepleteTimer += Time.deltaTime; 
+        if (fatigueDepleteTimer >= fatigueDepleteInterval) 
+        {
+            _currentFatigue = Mathf.Max(_currentFatigue - fatigueDepleteAmount, 0); 
+            fatigueDepleteTimer = 0f; 
+        }
+        
         #endregion
     }
 
@@ -110,7 +149,6 @@ public class SurvivalManager : MonoBehaviour
     {
         return _currentStamina > 0;
     }
-
     private void UpdateStamina()
     {
         if (InputManager.Instance.sprint && HasStamina())
@@ -137,7 +175,6 @@ public class SurvivalManager : MonoBehaviour
         // Clamp stamina to dynamically calculated max stamina
         _currentStamina = Mathf.Min(_currentStamina, MaxStamina);
     }
-
     private void UpdateCold()
     {
         #region Cold
@@ -166,8 +203,11 @@ public class SurvivalManager : MonoBehaviour
         }
         #endregion
     }
-
-    private void UpdateHealth()
+    public void UpdateColdReplenishment(bool isNearFire, bool underShelter)
+    {
+        _inWarmZone = isNearFire || underShelter;
+    }
+    private void UpdateHealth()  // Update health based on critical stats 
     {
         #region Health
         if (GetCriticalStatsCount() > 0)
@@ -181,40 +221,43 @@ public class SurvivalManager : MonoBehaviour
         #endregion
     }
 
-    private void UpdateDebugText()
+
+
+    #region Item Stat Modifiers
+    public void AddHealth(float amount)
     {
-        #region Debug
-        if (debugText != null && showDebugText)
-        {
-            debugText.text = $"Hunger: {_currentHunger:F1}\n" +
-                             $"Thirst: {_currentThirst:F1}\n" +
-                             $"Cold: {_currentCold:F1}\n" +
-                             $"Fatigue: {_currentFatigue:F1}\n" +
-                             $"Health: {_currentHealth:F1}\n" +
-                             $"Stamina: {_currentStamina:F1} / {MaxStamina:F1}";
-        }
-        #endregion
+        // Clamp to max health
+        _currentHealth = Mathf.Min(_currentHealth + amount, _maxHealth);
+    }
+    public void AddHunger(float amount)
+    {
+        _currentHunger = Mathf.Clamp(_currentHunger + amount, 0, _maxHunger);
+        // Optionally update HungerPercent or UI here if needed
+    }
+    public void AddThirst(float amount)
+    {
+        _currentThirst = Mathf.Clamp(_currentThirst + amount, 0, _maxThirst);
+        // Optionally update ThirstPercent or UI here if needed
     }
 
-    private int GetCriticalStatsCount()
+    public void AddFatigue(float amount)
     {
-        #region Critical Stats
-        int criticalStatsCount = 0;
-        if (_currentHunger <= 0) criticalStatsCount++;
-        if (_currentThirst <= 0) criticalStatsCount++;
-        if (_currentCold <= 0) criticalStatsCount++;
-        if (_currentFatigue <= 0) criticalStatsCount++;
-        return criticalStatsCount;
-        #endregion
+        _currentFatigue = Mathf.Clamp(_currentFatigue + amount, 0, _maxFatigue);
+        // Optionally update FatiguePercent or UI here if needed
     }
 
-    private float DepleteStat(float currentValue, float depletionRate, float deltaTime, float minValue = 0)
+    public void AddCold(float amount)
     {
-        #region Depletion function
-        currentValue -= depletionRate * deltaTime;
-        return Mathf.Max(currentValue, minValue); // Ensure the value doesn't go below the minimum
-        #endregion
+        _currentCold = Mathf.Clamp(_currentCold + amount, 0, _maxCold);
+
+        
+        // Optionally update UI or trigger effects here
     }
+    #endregion
+
+
+
+    #region Health Management
 
     private void ApplyHealthDepletion()
     {
@@ -242,14 +285,33 @@ public class SurvivalManager : MonoBehaviour
         }
         #endregion
     }
+    #endregion
 
-    // Add this public method to SurvivalManager to allow increasing health safely.
-    public void AddHealth(float amount)
+    private void UpdateDebugText()
     {
-        // Clamp to max health
-        _currentHealth = Mathf.Min(_currentHealth + amount, _maxHealth);
+        
+        if (debugText != null && showDebugText)
+        {
+            debugText.text = $"Hunger: {_currentHunger:F1}\n" +
+                             $"Thirst: {_currentThirst:F1}\n" +
+                             $"Cold: {_currentCold:F1}\n" +
+                             $"Fatigue: {_currentFatigue:F1}\n" +
+                             $"Health: {_currentHealth:F1}\n" +
+                             $"Stamina: {_currentStamina:F1} / {MaxStamina:F1}";
+        }
+        
     }
 
+    
+
+    private float DepleteStat(float currentValue, float depletionRate, float deltaTime, float minValue = 0)
+    {
+        currentValue -= depletionRate * deltaTime;
+        return Mathf.Max(currentValue, minValue); // Ensure the value doesn't go below the minimum
+        
+    }
+
+    
     private void HandlePlayerDeath()
     {
         if (!_playerHasDied)
@@ -259,8 +321,5 @@ public class SurvivalManager : MonoBehaviour
         }
     }
 
-    public void UpdateColdReplenishment(bool isNearFire, bool underShelter)
-    {
-        _inWarmZone = isNearFire || underShelter;
-    }
+   
 }

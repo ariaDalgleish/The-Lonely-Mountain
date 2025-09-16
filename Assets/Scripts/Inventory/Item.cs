@@ -29,13 +29,16 @@ public class Item : MonoBehaviour
     }
     private void Start()
     {
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+        inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
     }
     private void HandleInteraction()
     {
         SoundManager.PlaySound(SoundType.PICKUPITEM);
-        inventoryManager.AddItem(itemName, quantity, itemSprite, itemDescription);
-        Destroy(gameObject);
+        int leftOverItems = inventoryManager.AddItem(itemName, quantity, itemSprite, itemDescription);
+        if (leftOverItems <= 0)
+            Destroy(gameObject);
+        else   
+            quantity = leftOverItems;
 
     }
 
