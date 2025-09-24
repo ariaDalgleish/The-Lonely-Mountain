@@ -135,6 +135,31 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnRightClick()
     {
-        
+        // Create a new item 
+        GameObject itemToDrop = new GameObject(itemName);
+        Item newItem = itemToDrop.AddComponent<Item>();
+        //newItem.quantity = 1;
+        //newItem.itemName = itemName;
+        //newItem.itemSprite = itemSprite;
+        //newItem.itemDescription = itemDescription;
+
+        // Create and modify 
+        SpriteRenderer sr = itemToDrop.AddComponent<SpriteRenderer>();
+        sr.sprite = itemSprite;
+        //sr.sortingOrder = 5;
+        //sr.sortingLayerName = "Items";
+
+        // Add a BoxCollider component for collision detection 
+        itemToDrop.AddComponent<BoxCollider>();
+
+        // Set the location
+        itemToDrop.transform.position = GameObject.FindWithTag("Player").transform.position + new Vector3(.5f, 0, 0);
+        itemToDrop.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+        // Reduce the quantity in the inventory
+        this.quantity -= 1;
+        quantityText.text = this.quantity.ToString();
+        if (this.quantity <= 0)
+            EmptySlot();
     }
 }
