@@ -33,11 +33,14 @@ public class Item : MonoBehaviour
     }
     private void HandleInteraction()
     {
-        SoundManager.PlaySound(SoundType.PICKUPITEM);
+        
         int leftOverItems = inventoryManager.AddItem(itemName, quantity, itemSprite, itemDescription);
         if (leftOverItems <= 0)
+        {
+            SoundManager.PlaySound(SoundType.PICKUPITEM);
             Destroy(gameObject);
-        else   
+        }
+        else
             quantity = leftOverItems;
 
     }

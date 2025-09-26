@@ -1,5 +1,6 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.Windows;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -12,6 +13,20 @@ public class PlayerController : MonoBehaviour
     private float gravityValue = -9.81f;
     [SerializeField]
     private float smoothInputSpeed = .2f;
+
+    [SerializeField]
+    private float pickupTime = 2f;
+    [SerializeField] 
+    private RectTransform pickupImageRoot;
+    [SerializeField] 
+    private Image pickupProgressImage;
+    [SerializeField] 
+    private TextMeshProUGUI itemNameText;
+
+    private Interact interactableObject;
+    private float currentPickupTimerElapsed;
+    private bool hasInteractedThisHold = false;
+
     //[SerializeField]
     //private bool useFootSteps = true;
 
@@ -22,7 +37,6 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
 
     
-
     private Transform _cameraTransform;
 
     private Vector2 currentInputVector;
@@ -56,15 +70,46 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        HandleInteractionUI();
+        HandleMovement();
         //if (useFootSteps) HandleFootsteps();
+    }
 
+    private void HandleInteractionUI()
+    { 
+        PlayerInteract();
 
-        if (_inputManager.IsInteractKeyPressed())
+        if (HasItemTargetted())
         {
-            PlayerInteract();
-            Debug.Log("Interact Key Pressed");
-        }
+            pickupImageRoot.gameObject.SetActive(true);
 
+            if (_inputManager.IsInteractKeyPressed())
+            {
+                if (!hasInteractedThisHold)
+                {
+                    IncrementPickupProgressAndTryComplete();
+                }
+                //interactableObject.CallInteract(this)
+            }
+            else
+            {
+                currentPickupTimerElapsed = 0f;
+                hasInteractedThisHold = false; // Reset when key is released
+
+            }
+
+            UpdatePickupProgressImage();
+        }
+        else
+        {
+            pickupImageRoot.gameObject.SetActive(false);
+            currentPickupTimerElapsed = 0f;
+            hasInteractedThisHold = false;
+        }
+    }
+
+    private void HandleMovement()
+    {
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -137,8 +182,27 @@ public class PlayerController : MonoBehaviour
     }
     */
 
+    private bool HasItemTargetted()
+    {
+        return interactableObject != null;
+    }
+    private void IncrementPickupProgressAndTryComplete()
+    {
+        currentPickupTimerElapsed += Time.deltaTime;
+        if (currentPickupTimerElapsed >= pickupTime)
+        {
+            interactableObject.CallInteract(this);
+            hasInteractedThisHold = true;
+            // Prevent further interaction until key is released
+            // Only set interactableObject = null if you want to clear the reference (e.g., for items)
+        }
+    }
 
-
+    private void UpdatePickupProgressImage()
+    {
+        float pct = currentPickupTimerElapsed / pickupTime;
+        pickupProgressImage.fillAmount = pct;
+    }
 
     public void PlayerInteract()
     {
@@ -148,13 +212,29 @@ public class PlayerController : MonoBehaviour
 
         RaycastHit hit;
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Debug.DrawRay(ray.origin, ray.direction * 2f, Color.red);
 
         
         if (Physics.Raycast(ray, out hit, 4f, finalmask)) // Range
         {
-            Interact interactScript = hit.transform.GetComponent<Interact>();
-            if (interactScript) interactScript.CallInteract(this);          
+
+            var hitItem = hit.transform.GetComponent<Interact>();
+            if (hitItem == null)
+            {
+                interactableObject = null;
+                return;
+            }
+            if (hitItem != interactableObject)
+            {
+                interactableObject = hitItem;
+                itemNameText.text = interactableObject?.gameObject.name ?? "";
+            }
         }
+        else
+        {
+            interactableObject = null;
+        }
+
     }
 
 }

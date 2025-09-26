@@ -61,10 +61,10 @@ public class InputManager : MonoBehaviour
     }
     public bool sprint => GetSprintInput();
 
-    // Example method to check if the interact key is pressed
     public bool IsInteractKeyPressed()
     {
-        return playerControls.Player.Interact.triggered;
+        // Returns true as long as the interact key is held down
+        return playerControls.Player.Interact.ReadValue<float>() > 0f;
     }
 
     //public bool IsCrouchKeyPressed()
