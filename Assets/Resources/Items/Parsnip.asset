@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Parsnip
   statToChange: 4
-  attributesToChange: 0
-  amountToChangeStat: 10
-  amountToChangeAttribute: 0
+  attributesToChange: 5
+  amountToChangeStat: 1
+  amountToChangeAttribute: 1

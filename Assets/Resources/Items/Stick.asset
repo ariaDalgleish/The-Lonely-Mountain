@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Stick
   statToChange: 0
   attributesToChange: 0
-  amountToChangeStat: 10
+  amountToChangeStat: 0
   amountToChangeAttribute: 0

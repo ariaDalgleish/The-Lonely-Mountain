@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Carrot
   statToChange: 4
-  attributesToChange: 0
-  amountToChangeStat: 10
-  amountToChangeAttribute: 0
+  attributesToChange: 5
+  amountToChangeStat: 2
+  amountToChangeAttribute: 1
