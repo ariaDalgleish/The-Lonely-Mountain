@@ -10,6 +10,8 @@ public class Item : MonoBehaviour
 
     [SerializeField]
     private Sprite itemSprite;
+    [SerializeField]
+    private Sprite sketchSprite;
 
     [TextArea]
     [SerializeField]
@@ -34,7 +36,7 @@ public class Item : MonoBehaviour
     private void HandleInteraction()
     {
         
-        int leftOverItems = inventoryManager.AddItem(itemName, quantity, itemSprite, itemDescription);
+        int leftOverItems = inventoryManager.AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription);
         if (leftOverItems <= 0)
         {
             SoundManager.PlaySound(SoundType.PICKUPITEM);

@@ -262,7 +262,7 @@ public class SurvivalManager : MonoBehaviour
     private void ApplyHealthDepletion()
     {
         #region Health Depletion
-        float baseHealthDepletionRate = 5f;
+        float baseHealthDepletionRate = 1f;
         float additionalRatePerCriticalStat = 1f;
 
         int criticalStatsCount = GetCriticalStatsCount();

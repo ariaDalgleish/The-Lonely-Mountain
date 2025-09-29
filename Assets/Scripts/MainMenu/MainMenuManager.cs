@@ -78,12 +78,13 @@ public class MainMenuManager : MonoBehaviour
 
     public void LoadGame()
     {
-
+        // load previously saved game
     }
 
     public void QuitGame()
     {
-
+        // close the application
+        Application.Quit();
     }
 
 }

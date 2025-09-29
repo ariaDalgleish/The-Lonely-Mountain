@@ -59,7 +59,7 @@ public class InventoryManager : MonoBehaviour
 
 
     // changed void to int to return leftover items
-    public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
+    public int AddItem(string itemName, int quantity, Sprite itemSprite, Sprite sketchSprite, string itemDescription)
     {
        
         //Debug.Log($"Added {quantity} of {itemName} to inventory.");
@@ -68,11 +68,11 @@ public class InventoryManager : MonoBehaviour
             // Check if item matches the item we're adding or if slot is completely empty
             if (itemSlot[i].isFull == false && itemSlot[i].itemName == itemName || itemSlot[i].quantity == 0)
             {
-                int leftOverItems = itemSlot[i].AddItem(itemName, quantity, itemSprite, itemDescription);
+                int leftOverItems = itemSlot[i].AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription);
                 if (leftOverItems > 0)
                   {
                     // recursively call AddItem to add the left over items to the next available slot
-                    leftOverItems = AddItem(itemName, leftOverItems, itemSprite, itemDescription);
+                    leftOverItems = AddItem(itemName, leftOverItems, itemSprite, sketchSprite, itemDescription);
                   }   
                 return leftOverItems;
             }
