@@ -67,6 +67,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         // Update DESCRIPTION
         this.itemDescription = itemDescription;
 
+        if (ItemDescriptionNameText != null)
+            ItemDescriptionNameText.text = itemName;
+        if (ItemDescriptionText != null)
+            ItemDescriptionText.text = itemDescription;
+        if (itemDescriptionImage != null)
+            itemDescriptionImage.sprite = sketchSprite;
+
         // Update QUANTITY
         this.quantity += quantity;
         if (this.quantity >= maxNumberOfItems)

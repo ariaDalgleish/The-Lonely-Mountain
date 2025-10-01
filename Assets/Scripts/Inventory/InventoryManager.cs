@@ -1,18 +1,40 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
 
     public GameObject InventoryMenu;
     private bool menuActivated;
-    public ItemSlot[] itemSlot;
-
+    public List<ItemSlot> itemSlots = new List<ItemSlot>();
     public ItemSO[] itemSOs;
+    public GameObject itemSlotPrefab; // Assign in Inspector
+    public Transform itemSlotParent;
+    public TMP_Text itemDescriptionNameText;
+    public TMP_Text itemDescriptionText;
+    public Image itemDescriptionImage;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        // Initialize with 10 slots
+        for (int i = 0; i < 10; i++)
+        {
+            CreateNewItemSlot();
+        }
+    }
+    private ItemSlot CreateNewItemSlot()
+    {
+        GameObject slotObj = Instantiate(itemSlotPrefab, itemSlotParent);
+        ItemSlot slot = slotObj.GetComponent<ItemSlot>();
+        slot.ItemDescriptionNameText = itemDescriptionNameText;
+        slot.ItemDescriptionText = itemDescriptionText;
+        slot.itemDescriptionImage = itemDescriptionImage;
+        itemSlots.Add(slot);
+        return slot;
     }
 
     // Update is called once per frame
@@ -33,6 +55,7 @@ public class InventoryManager : MonoBehaviour
         }
         else if (InputManager.Instance.OpenInventory() && !menuActivated)
         {
+            DeselectAllSlots();
             SoundManager.PlaySound(SoundType.OPENINVENTORY);
             Time.timeScale = 0f;
             InventoryMenu.SetActive(true);
@@ -59,50 +82,61 @@ public class InventoryManager : MonoBehaviour
 
 
     // changed void to int to return leftover items
-    public int AddItem(string itemName, int quantity, Sprite itemSprite, Sprite sketchSprite, string itemDescription /*, GameObject prefabObject*/)
+    public int AddItem(string itemName, int quantity, Sprite itemSprite, Sprite sketchSprite, string itemDescription)
     {
-       
-        //Debug.Log($"Added {quantity} of {itemName} to inventory.");
-        for (int i = 0; i < itemSlot.Length; i++)
+        // Try to add to existing slots
+        foreach (var slot in itemSlots)
         {
-            // Check if item matches the item we're adding or if slot is completely empty
-            if (itemSlot[i].isFull == false && itemSlot[i].itemName == itemName || itemSlot[i].quantity == 0)
+            if (!slot.isFull && (slot.itemName == itemName || string.IsNullOrEmpty(slot.itemName)))
             {
-                int leftOverItems = itemSlot[i].AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription /*, GameObject prefabObject*/);
-                if (leftOverItems > 0)
-                  {
-                    // recursively call AddItem to add the left over items to the next available slot
-                    leftOverItems = AddItem(itemName, leftOverItems, itemSprite, sketchSprite, itemDescription /*, prefabObject*/);
-                  }   
-                return leftOverItems;
+                int leftover = slot.AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription);
+                if (leftover == 0)
+                    return 0;
+                quantity = leftover;
             }
         }
-        // if inventory is full and there are still items left return the quantity. 
-        // Outside of for loop because our slots are full
-        // Item is not added to inventory and keeps the same quantity
-        return quantity; 
 
+        // If still have items, create new slot(s)
+        while (quantity > 0)
+        {
+            ItemSlot newSlot = CreateNewItemSlot();
+            int leftover = newSlot.AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription);
+            if (leftover == 0)
+                return 0;
+            quantity = leftover;
+        }
+
+        return 0;
     }
 
     public void DeselectAllSlots()
     {
-        for (int i = 0; i < itemSlot.Length; i++)
+        foreach (var slot in itemSlots)
         {
-            itemSlot[i].selectedShader.SetActive(false);
-            itemSlot[i].thisItemSelected = false;
-            ClearDescriptionDisplay();
+            if (slot != null)
+            {
+                if (slot.selectedShader != null)
+                    slot.selectedShader.SetActive(false);
+                slot.thisItemSelected = false;
+            }
         }
+        ClearDescriptionDisplay();
     }
     public void ClearDescriptionDisplay()
     {
-        // Find the currently selected slot (if any) and clear its description UI
-        // Or, if description UI is shared, clear it directly
-        // Example assumes shared UI, adjust if needed:
-        if (itemSlot.Length > 0)
+        // If you have a shared description UI, clear it using the first slot's references
+        if (itemSlots.Count > 0 && itemSlots[0] != null)
         {
-            itemSlot[0].ItemDescriptionNameText.text = "";
-            itemSlot[0].ItemDescriptionText.text = "";
-            itemSlot[0].itemDescriptionImage.sprite = itemSlot[0].emptySprite;
+            if (itemSlots.Count > 0 && itemSlots[0] != null)
+            {
+                var slot = itemSlots[0];
+                if (slot.ItemDescriptionNameText != null)
+                    slot.ItemDescriptionNameText.text = "";
+                if (slot.ItemDescriptionText != null)
+                    slot.ItemDescriptionText.text = "";
+                if (slot.itemDescriptionImage != null && slot.emptySprite != null)
+                    slot.itemDescriptionImage.sprite = slot.emptySprite;
+            }
         }
     }
 }
