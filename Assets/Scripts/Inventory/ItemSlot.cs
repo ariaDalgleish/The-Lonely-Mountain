@@ -30,7 +30,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     private Image itemImage;
     #endregion
 
-    #region Item Display
+    #region Item Description Slot"
     [Header("Item Description Slot")]
     public Image itemDescriptionImage;
     public TMP_Text ItemDescriptionNameText;
@@ -156,27 +156,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         if (selectedShader != null)
             selectedShader.SetActive(false);
     }
-    public void OnDropButtonClick()
-    {
-        if (thisItemSelected && quantity > 0)
-        {
-            ItemSO itemSO = inventoryManager.itemSOs
-                .FirstOrDefault(so => so.itemName == itemName);
 
-            if (itemSO != null && itemSO.itemPrefab != null)
-            {
-                GameObject player = GameObject.FindWithTag("Player");
-                if (player != null)
-                {
-                    Instantiate(itemSO.itemPrefab, player.transform.position, Quaternion.identity);
-                    quantity -= 1;
-                    quantityText.text = quantity.ToString();
-                    if (quantity <= 0)
-                        EmptySlot();
-                }
-            }
-        }
-    }
     public void OnRightClick()
     {
         
