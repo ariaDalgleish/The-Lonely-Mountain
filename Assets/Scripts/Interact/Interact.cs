@@ -35,5 +35,6 @@ public class InteractEvent
 
     public event InteractHandler HasInteracted;
 
+    // Method to invoke the event
     public void CallInteractEvent() => HasInteracted?.Invoke();
 }

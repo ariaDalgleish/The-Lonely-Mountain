@@ -8,6 +8,7 @@ public class ItemSO : ScriptableObject
     public AttributesToChange attributesToChange = new AttributesToChange();
     public int amountToChangeStat;
     public int amountToChangeAttribute;
+    public GameObject itemPrefab;
 
 
     private SurvivalManager survivalManager;

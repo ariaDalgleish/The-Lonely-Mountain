@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc6791a3032cbb49ae291dc6d7c01b2, type: 3}
+  m_Name: Kale
+  m_EditorClassIdentifier: 
+  itemName: Kale
+  statToChange: 4
+  attributesToChange: 5
+  amountToChangeStat: 2
+  amountToChangeAttribute: 1
+  itemPrefab: {fileID: 8319057216396766652, guid: bfc336b20804ccc4788fa7a45d1c0344, type: 3}

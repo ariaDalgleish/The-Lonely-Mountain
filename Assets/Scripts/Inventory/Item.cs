@@ -3,19 +3,20 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField]
-    private string itemName;
+    public string itemName;
 
     [SerializeField]
-    private int quantity;
+    public int quantity;
 
     [SerializeField]
-    private Sprite itemSprite;
+    public Sprite itemSprite;
+    
     [SerializeField]
-    private Sprite sketchSprite;
+    public Sprite sketchSprite;
 
     [TextArea]
     [SerializeField]
-    private string itemDescription;
+    public string itemDescription;
 
     private InventoryManager inventoryManager;
     public Interact openFromInteraction;
@@ -36,7 +37,7 @@ public class Item : MonoBehaviour
     private void HandleInteraction()
     {
         
-        int leftOverItems = inventoryManager.AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription);
+        int leftOverItems = inventoryManager.AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription /*,  prefabObject*/);
         if (leftOverItems <= 0)
         {
             SoundManager.PlaySound(SoundType.PICKUPITEM);

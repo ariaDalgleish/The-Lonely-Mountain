@@ -191,6 +191,7 @@ public class PlayerController : MonoBehaviour
         currentPickupTimerElapsed += Time.deltaTime;
         if (currentPickupTimerElapsed >= pickupTime)
         {
+            Debug.Log("Pick up item");
             interactableObject.CallInteract(this);
             hasInteractedThisHold = true;
             // Prevent further interaction until key is released

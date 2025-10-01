@@ -1,16 +1,19 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     #region Item Data
     [Header("Item Data")]
     public string itemName;
+
     public int quantity;
     public Sprite itemSprite;
+    //public GameObject prefabObject;
     public Sprite sketchSprite;
     public bool isFull;
     public string itemDescription;
@@ -44,7 +47,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     {
         inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
     }
-    public int AddItem(string itemName, int quantity, Sprite itemSprite, Sprite sketchSprite, string itemDescription)
+    public int AddItem(string itemName, int quantity, Sprite itemSprite, Sprite sketchSprite, string itemDescription /*, GameObject prefabObject*/)
     {
         // Check to see if the slot is alreadty full
         if (isFull)
@@ -58,6 +61,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemImage.sprite = itemSprite;
 
         this.sketchSprite = sketchSprite;
+
+        //this.prefabObject = prefabObject;
 
         // Update DESCRIPTION
         this.itemDescription = itemDescription;
@@ -114,55 +119,81 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
         else
         {
-            inventoryManager.DeselectAllSlots();
-            selectedShader.SetActive(true);
-            thisItemSelected = true;
+            if (quantity > 0)
+            {
+                inventoryManager.DeselectAllSlots();
+                selectedShader.SetActive(true);
+                thisItemSelected = true;
 
-            ItemDescriptionNameText.text = itemName;
-            ItemDescriptionText.text = itemDescription;
-            itemDescriptionImage.sprite = sketchSprite;
+                ItemDescriptionNameText.text = itemName;
+                ItemDescriptionText.text = itemDescription;
+                itemDescriptionImage.sprite = sketchSprite;
 
-            if (itemDescriptionImage.sprite == null)
-                itemDescriptionImage.sprite = emptySprite;
+                if (itemDescriptionImage.sprite == null)
+                    itemDescriptionImage.sprite = emptySprite;
+            }
         }
     }
 
-    private void EmptySlot()
+    public void EmptySlot()
     {
         quantityText.enabled = false;
         itemImage.sprite = emptySprite;
         ItemDescriptionNameText.text = "";
         ItemDescriptionText.text = "";
         itemDescriptionImage.sprite = emptySprite;
+
+        // Reset all item data
+        itemName = "";
+        itemSprite = null;
+        sketchSprite = null;
+        itemDescription = "";
+        isFull = false;
+        quantity = 0;
+        thisItemSelected = false;
+
+        thisItemSelected = false;
+        if (selectedShader != null)
+            selectedShader.SetActive(false);
     }
 
     public void OnRightClick()
     {
-        // Create a new item 
-        GameObject itemToDrop = new GameObject(itemName);
-        Item newItem = itemToDrop.AddComponent<Item>();
-        //newItem.quantity = 1;
-        //newItem.itemName = itemName;
-        //newItem.itemSprite = itemSprite;
-        //newItem.itemDescription = itemDescription;
+        
+        if (thisItemSelected)
+        {
+            // Find the ItemSO that matches the itemName
+            ItemSO itemSO = inventoryManager.itemSOs
+            .FirstOrDefault(so => so.itemName == itemName);
 
-        // Create and modify 
-        SpriteRenderer sr = itemToDrop.AddComponent<SpriteRenderer>();
-        sr.sprite = itemSprite;
-        //sr.sortingOrder = 5;
-        //sr.sortingLayerName = "Items";
+            // If found and has a prefab, instantiate it
+            if (itemSO != null && itemSO.itemPrefab != null)
+            {
+                // Find the player
+                GameObject player = GameObject.FindWithTag("Player");
+                if (player != null)
+                {
+                    // Instantiate the prefab at the player's position
+                    Instantiate(itemSO.itemPrefab, player.transform.position, Quaternion.identity);
 
-        // Add a BoxCollider component for collision detection 
-        itemToDrop.AddComponent<BoxCollider>();
+                    // Successfully used the item, now decrease quantity
+                    this.quantity -= 1;
+                    quantityText.text = this.quantity.ToString();
+                    if (this.quantity <= 0)
+                    {
+                        EmptySlot();
+                    }
+                }
+            }
 
-        // Set the location
-        itemToDrop.transform.position = GameObject.FindWithTag("Player").transform.position + new Vector3(.5f, 0, 0);
-        itemToDrop.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            
+        }
 
-        // Reduce the quantity in the inventory
-        this.quantity -= 1;
-        quantityText.text = this.quantity.ToString();
-        if (this.quantity <= 0)
-            EmptySlot();
+        else
+        {
+            return;
+        }
+
+
     }
 }

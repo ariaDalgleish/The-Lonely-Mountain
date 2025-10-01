@@ -28,7 +28,7 @@ public class InventoryManager : MonoBehaviour
             // mouse cursor invisible and locked to center of screen
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-
+            DeselectAllSlots();
 
         }
         else if (InputManager.Instance.OpenInventory() && !menuActivated)
@@ -59,7 +59,7 @@ public class InventoryManager : MonoBehaviour
 
 
     // changed void to int to return leftover items
-    public int AddItem(string itemName, int quantity, Sprite itemSprite, Sprite sketchSprite, string itemDescription)
+    public int AddItem(string itemName, int quantity, Sprite itemSprite, Sprite sketchSprite, string itemDescription /*, GameObject prefabObject*/)
     {
        
         //Debug.Log($"Added {quantity} of {itemName} to inventory.");
@@ -68,11 +68,11 @@ public class InventoryManager : MonoBehaviour
             // Check if item matches the item we're adding or if slot is completely empty
             if (itemSlot[i].isFull == false && itemSlot[i].itemName == itemName || itemSlot[i].quantity == 0)
             {
-                int leftOverItems = itemSlot[i].AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription);
+                int leftOverItems = itemSlot[i].AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription /*, GameObject prefabObject*/);
                 if (leftOverItems > 0)
                   {
                     // recursively call AddItem to add the left over items to the next available slot
-                    leftOverItems = AddItem(itemName, leftOverItems, itemSprite, sketchSprite, itemDescription);
+                    leftOverItems = AddItem(itemName, leftOverItems, itemSprite, sketchSprite, itemDescription /*, prefabObject*/);
                   }   
                 return leftOverItems;
             }
@@ -90,6 +90,19 @@ public class InventoryManager : MonoBehaviour
         {
             itemSlot[i].selectedShader.SetActive(false);
             itemSlot[i].thisItemSelected = false;
-        }   
+            ClearDescriptionDisplay();
+        }
+    }
+    public void ClearDescriptionDisplay()
+    {
+        // Find the currently selected slot (if any) and clear its description UI
+        // Or, if description UI is shared, clear it directly
+        // Example assumes shared UI, adjust if needed:
+        if (itemSlot.Length > 0)
+        {
+            itemSlot[0].ItemDescriptionNameText.text = "";
+            itemSlot[0].ItemDescriptionText.text = "";
+            itemSlot[0].itemDescriptionImage.sprite = itemSlot[0].emptySprite;
+        }
     }
 }
