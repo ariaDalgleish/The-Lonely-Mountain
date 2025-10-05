@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Kale
   m_EditorClassIdentifier: 
   itemName: Kale
+  itemDescription: Surprisingly sweet, probably from the frost... Would go well in
+    soup
+  itemSprite: {fileID: 21300000, guid: 4f9c7f3c71f454541a3c78c7462ace82, type: 3}
+  sketchSprite: {fileID: 21300000, guid: a7cc5b17c12c8b843b74c604eedf68ca, type: 3}
+  itemPrefab: {fileID: 8319057216396766652, guid: bfc336b20804ccc4788fa7a45d1c0344, type: 3}
   statToChange: 4
   attributesToChange: 5
   amountToChangeStat: 2
   amountToChangeAttribute: 1
-  itemPrefab: {fileID: 8319057216396766652, guid: bfc336b20804ccc4788fa7a45d1c0344, type: 3}

@@ -3,57 +3,44 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField]
-    public string itemName;
+    public ItemSO itemSO; // <-- Add this
 
     [SerializeField]
     public int quantity;
 
-    [SerializeField]
-    public Sprite itemSprite;
-    
-    [SerializeField]
-    public Sprite sketchSprite;
-
-    [TextArea]
-    [SerializeField]
-    public string itemDescription;
-
     private InventoryManager inventoryManager;
     public Interact openFromInteraction;
+
     private void OnEnable()
     {
-        //SoundManager.PlaySound(SoundType.StartFire);
-        // Subscribe to the interaction event if the Interact component is assigned
         if (openFromInteraction != null)
         {
             openFromInteraction.GetInteractEvent.HasInteracted += HandleInteraction;
-
         }
     }
+
     private void Start()
     {
         inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
     }
+
     private void HandleInteraction()
     {
-        
-        int leftOverItems = inventoryManager.AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription /*,  prefabObject*/);
+        if (itemSO == null)
+        {
+            Debug.LogError("ItemSO reference is missing on this Item!");
+            return;
+        }
+
+        int leftOverItems = inventoryManager.AddItem(itemSO, quantity);
         if (leftOverItems <= 0)
         {
             SoundManager.PlaySound(SoundType.PICKUPITEM);
             Destroy(gameObject);
         }
         else
+        {
             quantity = leftOverItems;
-
+        }
     }
-
-    // Replace the OnCollisionEnter3D method with OnCollisionEnter, which uses the standard UnityEngine.Collision type.
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Player"))
-    //    {
-           
-    //    }
-    //}
 }

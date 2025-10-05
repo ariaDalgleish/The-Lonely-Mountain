@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 335960706366481605}
   - component: {fileID: 7655164208764893100}
   - component: {fileID: 9124320611575784600}
+  - component: {fileID: 8724297166966515404}
   m_Layer: 5
   m_Name: Item Slot
   m_TagString: Untagged
@@ -104,8 +105,12 @@ MonoBehaviour:
   quantityText: {fileID: 2889996405031122935}
   itemImage: {fileID: 9164486059305423883}
   itemDescriptionImage: {fileID: 0}
-  ItemDescriptionNameText: {fileID: 0}
-  ItemDescriptionText: {fileID: 0}
+  itemDescriptionNameText: {fileID: 0}
+  itemDescriptionText: {fileID: 0}
+  buttonDisplay: {fileID: 0}
+  eatButton: {fileID: 0}
+  holdButton: {fileID: 0}
+  dropButton: {fileID: 0}
   selectedShader: {fileID: 5207647210679927498}
   thisItemSelected: 0
 --- !u!114 &9124320611575784600
@@ -132,14 +137,14 @@ MonoBehaviour:
     m_NormalColor: {r: 0, g: 0, b: 0, a: 0.34117648}
     m_HighlightedColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0.078431375}
     m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 0.078431375}
-    m_SelectedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 0.078431375}
+    m_SelectedColor: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 0.105882354}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 21300000, guid: 12f86861311f44d498be1af5893d3779, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -152,6 +157,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8724297166966515404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091805150185118077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73426de42f990e1439d2f57d6b977ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5207647210679927498
 GameObject:
   m_ObjectHideFlags: 0

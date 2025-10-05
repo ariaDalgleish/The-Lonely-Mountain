@@ -3029,13 +3029,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff33576889e7a604987d7a969b77b9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Kale
+  itemSO: {fileID: 11400000, guid: 80afb27c2d8c0f54f88f9421f970fa5a, type: 2}
   quantity: 5
-  itemSprite: {fileID: 21300000, guid: 4f9c7f3c71f454541a3c78c7462ace82, type: 3}
-  prefabObject: {fileID: 2037926614057736124, guid: b7ff5934d13499c4ab57f9896bd3a106, type: 3}
-  sketchSprite: {fileID: 21300000, guid: a7cc5b17c12c8b843b74c604eedf68ca, type: 3}
-  itemDescription: mmh leaf, surprisingly sweet... probably from the frost. Good
-    soup ingredient.
   openFromInteraction: {fileID: 5130568797404697302}
 --- !u!65 &7778941456588004471
 BoxCollider:

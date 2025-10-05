@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
@@ -15,7 +17,10 @@ public class InventoryManager : MonoBehaviour
     public TMP_Text itemDescriptionNameText;
     public TMP_Text itemDescriptionText;
     public Image itemDescriptionImage;
-
+    public GameObject buttonDisplay;
+    public Button eatButton;
+    public Button dropButton;
+    public Button holdButton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,17 +28,30 @@ public class InventoryManager : MonoBehaviour
         // Initialize with 10 slots
         for (int i = 0; i < 10; i++)
         {
-            CreateNewItemSlot();
+            ItemSlot slot = CreateNewItemSlot(i == 0);
         }
+
+        InventoryMenu.SetActive(false);
+        menuActivated = false;
     }
-    private ItemSlot CreateNewItemSlot()
+    private ItemSlot CreateNewItemSlot(bool selectFirstSlot = false)
     {
         GameObject slotObj = Instantiate(itemSlotPrefab, itemSlotParent);
         ItemSlot slot = slotObj.GetComponent<ItemSlot>();
-        slot.ItemDescriptionNameText = itemDescriptionNameText;
-        slot.ItemDescriptionText = itemDescriptionText;
+        slot.itemDescriptionNameText = itemDescriptionNameText;
+        slot.itemDescriptionText = itemDescriptionText;
         slot.itemDescriptionImage = itemDescriptionImage;
+        slot.buttonDisplay = buttonDisplay;
+        slot.eatButton = eatButton;
+        slot.dropButton = dropButton;
+        slot.holdButton = holdButton;
         itemSlots.Add(slot);
+
+        if (selectFirstSlot)
+        {
+            EventSystem.current.SetSelectedGameObject(slot.gameObject); // Select the first slot
+        }
+
         return slot;
     }
 
@@ -60,9 +78,12 @@ public class InventoryManager : MonoBehaviour
             Time.timeScale = 0f;
             InventoryMenu.SetActive(true);
             menuActivated = true;
-            // mouse cursor visible and unlocked to move freely
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+
+            // Select the first slot after menu is active
+            if (itemSlots.Count > 0)
+                EventSystem.current.SetSelectedGameObject(itemSlots[0].gameObject);
         }
     }
     
@@ -82,14 +103,15 @@ public class InventoryManager : MonoBehaviour
 
 
     // changed void to int to return leftover items
-    public int AddItem(string itemName, int quantity, Sprite itemSprite, Sprite sketchSprite, string itemDescription)
+    public int AddItem(ItemSO itemSO, int quantity)
     {
         // Try to add to existing slots
         foreach (var slot in itemSlots)
         {
-            if (!slot.isFull && (slot.itemName == itemName || string.IsNullOrEmpty(slot.itemName)))
+            // Add to slot if not full and either same item or empty
+            if (!slot.isFull && (slot.itemName == itemSO.itemName || string.IsNullOrEmpty(slot.itemName)))
             {
-                int leftover = slot.AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription);
+                int leftover = slot.AddItem(itemSO, quantity);
                 if (leftover == 0)
                     return 0;
                 quantity = leftover;
@@ -100,7 +122,7 @@ public class InventoryManager : MonoBehaviour
         while (quantity > 0)
         {
             ItemSlot newSlot = CreateNewItemSlot();
-            int leftover = newSlot.AddItem(itemName, quantity, itemSprite, sketchSprite, itemDescription);
+            int leftover = newSlot.AddItem(itemSO, quantity);
             if (leftover == 0)
                 return 0;
             quantity = leftover;
@@ -115,8 +137,6 @@ public class InventoryManager : MonoBehaviour
         {
             if (slot != null)
             {
-                if (slot.selectedShader != null)
-                    slot.selectedShader.SetActive(false);
                 slot.thisItemSelected = false;
             }
         }
@@ -130,12 +150,14 @@ public class InventoryManager : MonoBehaviour
             if (itemSlots.Count > 0 && itemSlots[0] != null)
             {
                 var slot = itemSlots[0];
-                if (slot.ItemDescriptionNameText != null)
-                    slot.ItemDescriptionNameText.text = "";
-                if (slot.ItemDescriptionText != null)
-                    slot.ItemDescriptionText.text = "";
+                if (slot.itemDescriptionNameText != null)
+                    slot.itemDescriptionNameText.text = "";
+                if (slot.itemDescriptionText != null)
+                    slot.itemDescriptionText.text = "";
                 if (slot.itemDescriptionImage != null && slot.emptySprite != null)
                     slot.itemDescriptionImage.sprite = slot.emptySprite;
+                if (slot.buttonDisplay != null)
+                    slot.buttonDisplay.SetActive(false);
             }
         }
     }

@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Pot
   m_EditorClassIdentifier: 
   itemName: Pot
+  itemDescription: Useful
+  itemSprite: {fileID: 21300000, guid: 7d4364153aa542a4ca3693181d192b70, type: 3}
+  sketchSprite: {fileID: 21300000, guid: 7b3c71046e522e740a71b53515df63bc, type: 3}
+  itemPrefab: {fileID: 356226389206023256, guid: c2430d29705b47a499025901894b6c02, type: 3}
   statToChange: 0
   attributesToChange: 0
   amountToChangeStat: 0
   amountToChangeAttribute: 0
-  itemPrefab: {fileID: 356226389206023256, guid: c2430d29705b47a499025901894b6c02, type: 3}

@@ -3,12 +3,19 @@ using UnityEngine;
 [CreateAssetMenu] // This attribute allows you to create instances of this ScriptableObject from the Unity Editor
 public class ItemSO : ScriptableObject
 {
+    #region Item Data"
+    [Header("Iem Data")]
     public string itemName;
+    public string itemDescription; 
+    public Sprite itemSprite;      
+    public Sprite sketchSprite;    
+    public GameObject itemPrefab;
+    #endregion
+
     public StatToChange statToChange = new StatToChange();
     public AttributesToChange attributesToChange = new AttributesToChange();
     public int amountToChangeStat;
     public int amountToChangeAttribute;
-    public GameObject itemPrefab;
 
 
     private SurvivalManager survivalManager;

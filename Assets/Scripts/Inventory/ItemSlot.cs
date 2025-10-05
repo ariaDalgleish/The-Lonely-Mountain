@@ -5,15 +5,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlot : MonoBehaviour, IPointerClickHandler
+public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
 {
     #region Item Data
     [Header("Item Data")]
     public string itemName;
-
     public int quantity;
     public Sprite itemSprite;
-    //public GameObject prefabObject;
     public Sprite sketchSprite;
     public bool isFull;
     public string itemDescription;
@@ -22,94 +20,164 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     #region item Slot
     [Header("Item Slot")]
-    [SerializeField]
-    public int maxNumberOfItems;
+    [SerializeField] public int maxNumberOfItems;
     [SerializeField] private TMP_Text quantityText;
-
-    [SerializeField]
-    private Image itemImage;
+    [SerializeField] private Image itemImage;
     #endregion
 
-    #region Item Description Slot"
-    [Header("Item Description Slot")]
+    #region Item Display
+    [Header("Item Display")]
     public Image itemDescriptionImage;
-    public TMP_Text ItemDescriptionNameText;
-    public TMP_Text ItemDescriptionText;
+    public TMP_Text itemDescriptionNameText;
+    public TMP_Text itemDescriptionText;
+    public GameObject buttonDisplay;
+    public Button eatButton;
+    public Button holdButton;
+    public Button dropButton;
     #endregion
 
-    public GameObject selectedShader;
     public bool thisItemSelected;
-    
+    public ItemSO itemSO; // Add this field
 
     private InventoryManager inventoryManager;
 
     private void Start()
     {
         inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+
+        // Button Click Events
+        if (eatButton != null) eatButton.onClick.AddListener(OnLeftClick);
+        if (holdButton != null) holdButton.onClick.AddListener(HoldButton);
+        if (dropButton != null) dropButton.onClick.AddListener(DropButton);
+
+        // Hide buttons initially
+        SetDisplayButtonsActive(false);
     }
-    public int AddItem(string itemName, int quantity, Sprite itemSprite, Sprite sketchSprite, string itemDescription /*, GameObject prefabObject*/)
+
+  
+    private void SetDisplayButtonsActive(bool isActive)
     {
-        // Check to see if the slot is alreadty full
+        // Only set active if all buttons are not null
+        if (eatButton != null && holdButton != null && dropButton != null)
+        {
+            buttonDisplay.gameObject.SetActive(isActive);
+        }
+    }
+
+    public int AddItem(ItemSO itemSO, int quantity)
+    {
         if (isFull)
             return quantity;
 
-        // Update NAME
-        this.itemName = itemName;
+        SetItemData(itemSO); // Set item data from ItemSO
+        UpdateItemUI(); // Update UI elements with new item data
 
-        // Update IMAGE
-        this.itemSprite = itemSprite;
-        itemImage.sprite = itemSprite;
-
-        this.sketchSprite = sketchSprite;
-
-        //this.prefabObject = prefabObject;
-
-        // Update DESCRIPTION
-        this.itemDescription = itemDescription;
-
-        if (ItemDescriptionNameText != null)
-            ItemDescriptionNameText.text = itemName;
-        if (ItemDescriptionText != null)
-            ItemDescriptionText.text = itemDescription;
-        if (itemDescriptionImage != null)
-            itemDescriptionImage.sprite = sketchSprite;
-
-        // Update QUANTITY
-        this.quantity += quantity;
-        if (this.quantity >= maxNumberOfItems)
+        this.quantity += quantity; // Add incoming quantity
+        if (this.quantity >= maxNumberOfItems) // Check if exceeds max
         {
-            quantityText.text = maxNumberOfItems.ToString();
-            quantityText.enabled = true;
+            int extraItems = this.quantity - maxNumberOfItems; // Calculate leftover items
+            this.quantity = maxNumberOfItems; // Cap to max
             isFull = true;
-
-            /// return the LEFTOVERS
-            int extraItems = this.quantity - maxNumberOfItems;
-            this.quantity = maxNumberOfItems;
+            UpdateQuantityUI();
             return extraItems;
         }
 
-        //Update QUANTITY TEXT
-        quantityText.text = this.quantity.ToString();
-        quantityText.enabled = true;
-
-        // Slot is now full
+        isFull = false;
+        UpdateQuantityUI();
         return 0;
+    }
 
+    // Helper to set item data from ItemSO
+    private void SetItemData(ItemSO itemSO)
+    {
+        this.itemSO = itemSO; // Store reference
+        itemName = itemSO.itemName;
+        itemSprite = itemSO.itemSprite;
+        sketchSprite = itemSO.sketchSprite;
+        itemDescription = itemSO.itemDescription;
+    }
+
+    // Helper to update all item UI elements
+    private void UpdateItemUI()
+    {
+        if (itemDescriptionNameText != null)
+            itemDescriptionNameText.text = itemName;
+        if (itemDescriptionText != null)
+            itemDescriptionText.text = itemDescription;
+        if (itemDescriptionImage != null)
+            itemDescriptionImage.sprite = sketchSprite;
+        if (itemImage != null)
+            itemImage.sprite = itemSprite;
+    }
+
+    // Helper to update quantity UI
+    private void UpdateQuantityUI()
+    {
+        if (quantityText != null)
+        {
+            quantityText.text = quantity.ToString();
+            quantityText.enabled = quantity > 0;
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button== PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
             OnLeftClick();
         }
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            OnRightClick();
-        }
+    }
+    public void OnSubmit(BaseEventData eventData)
+    {
+        OnLeftClick();
     }
 
+
+
     public void OnLeftClick()
+    {
+        if (quantity > 0)
+        {
+            inventoryManager.DeselectAllSlots();
+            thisItemSelected = true;
+            itemDescriptionNameText.text = itemName;
+            itemDescriptionText.text = itemDescription;
+            itemDescriptionImage.sprite = sketchSprite;
+
+            if (itemDescriptionImage.sprite == null)
+                itemDescriptionImage.sprite = emptySprite;
+
+            SetDisplayButtonsActive(true);
+            }
+        
+    }
+
+    public void EmptySlot()
+    {
+        quantityText.enabled = false;
+        itemImage.sprite = emptySprite;
+        itemDescriptionNameText.text = "";
+        itemDescriptionText.text = "";
+        itemDescriptionImage.sprite = emptySprite;
+
+        // Reset all item data
+        itemSO = null; // Clear reference
+        itemName = "";
+        itemSprite = null;
+        sketchSprite = null;
+        itemDescription = "";
+        isFull = false;
+        quantity = 0;
+        thisItemSelected = false;
+
+        thisItemSelected = false;
+       
+    }
+
+    
+
+
+    public void EatButton()
     {
         if (thisItemSelected)
         {
@@ -123,50 +191,15 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                     EmptySlot();
             }
         }
-
-        else
-        {
-            if (quantity > 0)
-            {
-                inventoryManager.DeselectAllSlots();
-                selectedShader.SetActive(true);
-                thisItemSelected = true;
-
-                ItemDescriptionNameText.text = itemName;
-                ItemDescriptionText.text = itemDescription;
-                itemDescriptionImage.sprite = sketchSprite;
-
-                if (itemDescriptionImage.sprite == null)
-                    itemDescriptionImage.sprite = emptySprite;
-            }
-        }
+    }
+    public void HoldButton()
+    {
+        // Currently does nothing
+        return;
     }
 
-    public void EmptySlot()
+    public void DropButton()
     {
-        quantityText.enabled = false;
-        itemImage.sprite = emptySprite;
-        ItemDescriptionNameText.text = "";
-        ItemDescriptionText.text = "";
-        itemDescriptionImage.sprite = emptySprite;
-
-        // Reset all item data
-        itemName = "";
-        itemSprite = null;
-        sketchSprite = null;
-        itemDescription = "";
-        isFull = false;
-        quantity = 0;
-        thisItemSelected = false;
-
-        thisItemSelected = false;
-        if (selectedShader != null)
-            selectedShader.SetActive(false);
-    }
-
-    public void OnRightClick()
-    {
-        
         if (thisItemSelected)
         {
             // Find the ItemSO that matches the itemName
@@ -185,22 +218,19 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
                     // Successfully used the item, now decrease quantity
                     this.quantity -= 1;
-                    quantityText.text = this.quantity.ToString();
+                    UpdateQuantityUI();
                     if (this.quantity <= 0)
                     {
                         EmptySlot();
                     }
                 }
             }
-
-            
         }
-
         else
         {
             return;
         }
-
-
     }
+
 }
+

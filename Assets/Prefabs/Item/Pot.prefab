@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8331542562864666001}
+  - component: {fileID: 4855565078068620476}
   - component: {fileID: 212073025571708721}
   - component: {fileID: 331844194045844374}
-  - component: {fileID: 4855565078068620476}
   - component: {fileID: 4454013087237772553}
   m_Layer: 0
   m_Name: Pot
@@ -36,6 +36,21 @@ Transform:
   - {fileID: 2293596818670266121}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4855565078068620476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356226389206023256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff33576889e7a604987d7a969b77b9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSO: {fileID: 11400000, guid: 71af8f215709fb14dbbe489024a306ef, type: 2}
+  quantity: 1
+  openFromInteraction: {fileID: 4454013087237772553}
 --- !u!65 &212073025571708721
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -84,25 +99,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4855565078068620476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 356226389206023256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff33576889e7a604987d7a969b77b9f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: Pot
-  quantity: 1
-  itemSprite: {fileID: 21300000, guid: 7d4364153aa542a4ca3693181d192b70, type: 3}
-  prefabObject: {fileID: 2854036987558762312, guid: bd2fe8076a2a043419a068455a1f3149, type: 3}
-  sketchSprite: {fileID: 21300000, guid: 7b3c71046e522e740a71b53515df63bc, type: 3}
-  itemDescription: Metal pot. Good tool for cooking!
-  openFromInteraction: {fileID: 4454013087237772553}
 --- !u!114 &4454013087237772553
 MonoBehaviour:
   m_ObjectHideFlags: 0
