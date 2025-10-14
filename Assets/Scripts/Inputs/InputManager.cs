@@ -83,4 +83,9 @@ public class InputManager : MonoBehaviour
         return playerControls.Player.Tab.triggered;
     }
 
+    public bool PutAway()
+    {
+        return playerControls.Player.PutAway.triggered;
+    }
+
 }

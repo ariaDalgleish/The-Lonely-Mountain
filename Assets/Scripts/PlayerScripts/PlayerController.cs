@@ -73,8 +73,11 @@ public class PlayerController : MonoBehaviour
         HandleInteractionUI();
         HandleMovement();
         //if (useFootSteps) HandleFootsteps();
+        
+       
     }
-
+   
+    
     private void HandleInteractionUI()
     { 
         PlayerInteract();

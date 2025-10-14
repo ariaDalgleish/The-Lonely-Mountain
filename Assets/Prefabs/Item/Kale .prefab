@@ -3029,7 +3029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff33576889e7a604987d7a969b77b9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSO: {fileID: 11400000, guid: 80afb27c2d8c0f54f88f9421f970fa5a, type: 2}
+  itemData: {fileID: 11400000, guid: 80afb27c2d8c0f54f88f9421f970fa5a, type: 2}
   quantity: 5
   openFromInteraction: {fileID: 5130568797404697302}
 --- !u!65 &7778941456588004471

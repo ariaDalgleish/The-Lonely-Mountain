@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff33576889e7a604987d7a969b77b9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSO: {fileID: 11400000, guid: 71af8f215709fb14dbbe489024a306ef, type: 2}
+  itemData: {fileID: 11400000, guid: 71af8f215709fb14dbbe489024a306ef, type: 2}
   quantity: 1
   openFromInteraction: {fileID: 4454013087237772553}
 --- !u!65 &212073025571708721

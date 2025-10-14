@@ -1,9 +1,10 @@
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 public class Item : MonoBehaviour
 {
     [SerializeField]
-    public ItemSO itemSO; // <-- Add this
+    public ItemData itemData; // <-- Add this
 
     [SerializeField]
     public int quantity;
@@ -26,13 +27,13 @@ public class Item : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if (itemSO == null)
+        if (itemData == null)
         {
             Debug.LogError("ItemSO reference is missing on this Item!");
             return;
         }
 
-        int leftOverItems = inventoryManager.AddItem(itemSO, quantity);
+        int leftOverItems = inventoryManager.AddItem(itemData, quantity);
         if (leftOverItems <= 0)
         {
             SoundManager.PlaySound(SoundType.PICKUPITEM);

@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject InventoryMenu;
     private bool menuActivated;
     public List<ItemSlot> itemSlots = new List<ItemSlot>();
-    public ItemSO[] itemSOs;
+    public ItemData[] itemsData;
     public GameObject itemSlotPrefab; // Assign in Inspector
     public Transform itemSlotParent;
     public TMP_Text itemDescriptionNameText;
@@ -21,6 +21,7 @@ public class InventoryManager : MonoBehaviour
     public Button eatButton;
     public Button dropButton;
     public Button holdButton;
+    public ItemSlot currentSelectedSlot;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -90,11 +91,11 @@ public class InventoryManager : MonoBehaviour
 
     public bool UseItem(string itemName)
     {
-        for (int i = 0; i < itemSOs.Length; i++)
+        for (int i = 0; i < itemsData.Length; i++)
         {
-            if(itemSOs[i].itemName == itemName)
+            if(itemsData[i].itemName == itemName)
             {
-                bool usable = itemSOs[i].UseItem();
+                bool usable = itemsData[i].UseItem();
                 return usable; // Exit the loop once the item is found and used
             }
         }
@@ -103,15 +104,15 @@ public class InventoryManager : MonoBehaviour
 
 
     // changed void to int to return leftover items
-    public int AddItem(ItemSO itemSO, int quantity)
+    public int AddItem(ItemData itemData, int quantity)
     {
         // Try to add to existing slots
         foreach (var slot in itemSlots)
         {
             // Add to slot if not full and either same item or empty
-            if (!slot.isFull && (slot.itemName == itemSO.itemName || string.IsNullOrEmpty(slot.itemName)))
+            if (!slot.isFull && (slot.itemName == itemData.itemName || string.IsNullOrEmpty(slot.itemName)))
             {
-                int leftover = slot.AddItem(itemSO, quantity);
+                int leftover = slot.AddItem(itemData, quantity);
                 if (leftover == 0)
                     return 0;
                 quantity = leftover;
@@ -122,7 +123,7 @@ public class InventoryManager : MonoBehaviour
         while (quantity > 0)
         {
             ItemSlot newSlot = CreateNewItemSlot();
-            int leftover = newSlot.AddItem(itemSO, quantity);
+            int leftover = newSlot.AddItem(itemData, quantity);
             if (leftover == 0)
                 return 0;
             quantity = leftover;
@@ -161,4 +162,20 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+    public void OnHoldButtonPressed()
+    {
+        if (currentSelectedSlot != null)
+            currentSelectedSlot.HoldButton();
+    }
+    public void OnDropButtonPressed()
+    {
+        if (currentSelectedSlot != null)
+            currentSelectedSlot.DropButton();
+    }
+    public void OnEatButtonPressed()
+    {
+        if (currentSelectedSlot != null)
+            currentSelectedSlot.EatButton();
+    }
+
 }

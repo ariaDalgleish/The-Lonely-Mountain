@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System;
 using System.Linq;
 using TMPro;
@@ -37,18 +38,20 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
     #endregion
 
     public bool thisItemSelected;
-    public ItemSO itemSO; // Add this field
+    public ItemData itemData; // Add this field
 
     private InventoryManager inventoryManager;
+    private EquipManager equipManager;
 
     private void Start()
     {
         inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+        equipManager = GameObject.Find("EquipManager").GetComponent<EquipManager>();
 
         // Button Click Events
-        if (eatButton != null) eatButton.onClick.AddListener(OnLeftClick);
-        if (holdButton != null) holdButton.onClick.AddListener(HoldButton);
-        if (dropButton != null) dropButton.onClick.AddListener(DropButton);
+        //if (eatButton != null) eatButton.onClick.AddListener(OnLeftClick);
+        //if (holdButton != null) holdButton.onClick.AddListener(HoldButton);
+        //if (dropButton != null) dropButton.onClick.AddListener(DropButton);
 
         // Hide buttons initially
         SetDisplayButtonsActive(false);
@@ -64,12 +67,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
         }
     }
 
-    public int AddItem(ItemSO itemSO, int quantity)
+    public int AddItem(ItemData itemData, int quantity)
     {
         if (isFull)
             return quantity;
 
-        SetItemData(itemSO); // Set item data from ItemSO
+        SetItemData(itemData); // Set item data from ItemSO
         UpdateItemUI(); // Update UI elements with new item data
 
         this.quantity += quantity; // Add incoming quantity
@@ -88,13 +91,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
     }
 
     // Helper to set item data from ItemSO
-    private void SetItemData(ItemSO itemSO)
+    private void SetItemData(ItemData itemData)
     {
-        this.itemSO = itemSO; // Store reference
-        itemName = itemSO.itemName;
-        itemSprite = itemSO.itemSprite;
-        sketchSprite = itemSO.sketchSprite;
-        itemDescription = itemSO.itemDescription;
+        this.itemData = itemData; // Store reference
+        itemName = itemData.itemName;
+        itemSprite = itemData.itemSprite;
+        sketchSprite = itemData.sketchSprite;
+        itemDescription = itemData.itemDescription;
     }
 
     // Helper to update all item UI elements
@@ -140,6 +143,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
         {
             inventoryManager.DeselectAllSlots();
             thisItemSelected = true;
+            inventoryManager.currentSelectedSlot = this; // Track the selected slot
+
             itemDescriptionNameText.text = itemName;
             itemDescriptionText.text = itemDescription;
             itemDescriptionImage.sprite = sketchSprite;
@@ -161,7 +166,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
         itemDescriptionImage.sprite = emptySprite;
 
         // Reset all item data
-        itemSO = null; // Clear reference
+        itemData = null; // Clear reference
         itemName = "";
         itemSprite = null;
         sketchSprite = null;
@@ -194,35 +199,39 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
     }
     public void HoldButton()
     {
-        // Currently does nothing
-        return;
+        bool equipped = equipManager.Equip(this.itemData);
+        if (equipped)
+        {
+            this.quantity -= 1;
+            UpdateQuantityUI();
+            if (this.quantity <= 0)
+            {
+                EmptySlot();
+            }
+        
+        // else: do nothing, item remains in slot
+         }
+
+
     }
 
     public void DropButton()
     {
-        if (thisItemSelected)
+        if (!thisItemSelected || itemData == null)
+            return;
+        if (itemData.itemPrefab != null)
         {
-            // Find the ItemSO that matches the itemName
-            ItemSO itemSO = inventoryManager.itemSOs
-            .FirstOrDefault(so => so.itemName == itemName);
-
-            // If found and has a prefab, instantiate it
-            if (itemSO != null && itemSO.itemPrefab != null)
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
             {
-                // Find the player
-                GameObject player = GameObject.FindWithTag("Player");
-                if (player != null)
-                {
-                    // Instantiate the prefab at the player's position
-                    Instantiate(itemSO.itemPrefab, player.transform.position, Quaternion.identity);
+                Instantiate(itemData.itemPrefab, player.transform.position, Quaternion.identity);
 
-                    // Successfully used the item, now decrease quantity
-                    this.quantity -= 1;
-                    UpdateQuantityUI();
-                    if (this.quantity <= 0)
-                    {
-                        EmptySlot();
-                    }
+                
+                this.quantity -= 1;
+                UpdateQuantityUI();
+                if (this.quantity <= 0)
+                {
+                    EmptySlot();
                 }
             }
         }
@@ -231,6 +240,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
             return;
         }
     }
-
+   
 }
 
