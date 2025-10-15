@@ -44,7 +44,7 @@ public class ItemData : ScriptableObject
             if (survivalManager._currentHealth >= survivalManager._maxHealth - amountToChangeStat)
             {
                 // UIMessageManager.Instance?.ShowMessage("Cannot use item: Health is already full!");
-                Debug.Log("Cannot use item, health is full.");
+                UIHelpMessages.Instance?.ShowMessage("Cannot use item, health is full.");
                 // Do nothing if using the item would overfill health
                 return false;
             }
@@ -60,7 +60,7 @@ public class ItemData : ScriptableObject
             if (survivalManager._currentCold >= survivalManager._maxCold - amountToChangeStat)
             {
                 // UIMessageManager.Instance?.ShowMessage("Cannot use item: Cold is already full!");
-                Debug.Log("Cannot use item, cold is full.");
+                UIHelpMessages.Instance?.ShowMessage("Cannot use item, cold is full.");
                 // Do nothing if using the item would overfill cold
                 return false;
             }
@@ -76,7 +76,7 @@ public class ItemData : ScriptableObject
             if (survivalManager._currentHunger >= survivalManager._maxHunger - amountToChangeStat)
             {
                 // UIMessageManager.Instance?.ShowMessage("Cannot use item: Hunger is already full!");
-                Debug.Log("Cannot use item, hunger is full.");
+                UIHelpMessages.Instance?.ShowMessage("Cannot use item, hunger is full.");
                 // Do nothing if using the item would overfill hunger
                 return false;
             }
@@ -92,7 +92,7 @@ public class ItemData : ScriptableObject
             if (survivalManager._currentThirst >= survivalManager._maxThirst - amountToChangeStat)
             {
                 // UIMessageManager.Instance?.ShowMessage("Cannot use item: Thirst is already full!");
-                Debug.Log("Cannot use item, thirst is full.");
+                UIHelpMessages.Instance?.ShowMessage("Cannot use item, thirst is full.");
                 // Do nothing if using the item would overfill thirst
                 return false;
             }
@@ -108,7 +108,7 @@ public class ItemData : ScriptableObject
             if (survivalManager._currentFatigue >= survivalManager._maxFatigue - amountToChangeStat)
             {
                 // UIMessageManager.Instance?.ShowMessage("Cannot use item: Fatigue is already full!");
-                Debug.Log("Cannot use item, fatigue is full.");
+                UIHelpMessages.Instance?.ShowMessage("Cannot use item, fatigue is full.");
                 // Do nothing if using the item would overfill fatigue
                 return false;
             }

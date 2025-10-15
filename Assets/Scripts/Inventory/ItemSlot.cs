@@ -179,24 +179,29 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
        
     }
 
-    
+
 
 
     public void EatButton()
     {
         if (thisItemSelected)
         {
-            bool usable = inventoryManager.UseItem(itemName);
+            bool usable = inventoryManager.UseItem(this.itemData);
             if (usable)
             {
                 this.quantity -= 1;
-                //update quantity text
                 quantityText.text = this.quantity.ToString();
                 if (this.quantity <= 0)
                     EmptySlot();
             }
+            else
+            {
+                UIHelpMessages.Instance?.ShowMessage("Item not usable, do nothing");
+                return;
+            }
         }
     }
+
     public void HoldButton()
     {
         bool equipped = equipManager.Equip(this.itemData);

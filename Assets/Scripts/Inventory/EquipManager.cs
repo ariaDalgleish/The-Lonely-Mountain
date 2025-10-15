@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class EquipManager : MonoBehaviour
@@ -46,16 +47,33 @@ public class EquipManager : MonoBehaviour
         switch (itemData.itemType)
         {
             case ItemType.tool:
-                if (equippedTool != null || HasAnyIngredientsEquipped())
+                if (equippedTool != null)
+                {
+                    Debug.Log("Cannot equip tool: a tool is already equipped.");
                     return false; // Block equip
+                }
+                if (HasAnyIngredientsEquipped())
+                {
+                    Debug.Log("Cannot equip tool: ingredients are already equipped.");
+                    return false; // Block equip
+                }
                 EquipTool(itemData);      
                 return true;
             case ItemType.ingredient:
-                if (equippedTool != null || GetIngredientCount() >= 3)           
+                if (equippedTool != null)
+                {
+                    Debug.Log("Cannot equip ingredient: a tool is already equipped.");
                     return false; // Block equip
+                }
+                if (GetIngredientCount() >= 3)
+                {
+                    Debug.Log("Cannot equip ingredient: already equipped maximum number of ingredients.");
+                    return false; // Block equip
+                }
                 EquipIngredient(itemData);
                 return true;
         }
+        Debug.Log("Cannot equip: unsupported item type or other error.");
         return false;
     }
 

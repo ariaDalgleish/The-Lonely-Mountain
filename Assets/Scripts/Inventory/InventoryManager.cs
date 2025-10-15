@@ -96,17 +96,10 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    public bool UseItem(string itemName)
+    public bool UseItem(ItemData itemData)
     {
-        for (int i = 0; i < itemsData.Length; i++)
-        {
-            if(itemsData[i].itemName == itemName)
-            {
-                bool usable = itemsData[i].UseItem();
-                return usable; // Exit the loop once the item is found and used
-            }
-        }
-        return false; // Item not found
+        if (itemData == null) return false;
+        return itemData.UseItem();
     }
 
 
