@@ -20,6 +20,9 @@ public class EquipManager : MonoBehaviour
     public InventoryManager inventoryManager;
     public bool itemEquipped = false;
 
+    [SerializeField]
+    private RectTransform putAwayText;
+
     public GameObject GetEquippedTool() => equippedTool;
     public GameObject[] GetEquippedIngredients() => equippedIngredients;
 
@@ -45,10 +48,10 @@ public class EquipManager : MonoBehaviour
             case ItemType.tool:
                 if (equippedTool != null || HasAnyIngredientsEquipped())
                     return false; // Block equip
-                EquipTool(itemData);
+                EquipTool(itemData);      
                 return true;
             case ItemType.ingredient:
-                if (equippedTool != null || GetIngredientCount() >= 3)
+                if (equippedTool != null || GetIngredientCount() >= 3)           
                     return false; // Block equip
                 EquipIngredient(itemData);
                 return true;
@@ -64,6 +67,8 @@ public class EquipManager : MonoBehaviour
         equippedTool.transform.localPosition = Vector3.zero;
         itemEquipped = true;
         equippedOrder.Push((ItemType.tool, 0)); // 0 index for tool
+        // No need to check for existing tool since Equip blocks if one is already equipped
+        putAwayText.gameObject.SetActive(true);
     }
 
     private void EquipIngredient(ItemData itemData)
@@ -77,6 +82,8 @@ public class EquipManager : MonoBehaviour
                 equippedIngredientsData[i] = itemData;
                 itemEquipped = true;
                 equippedOrder.Push((ItemType.ingredient, i));
+                if (putAwayText != null && !putAwayText.gameObject.activeSelf)
+                    putAwayText.gameObject.SetActive(true);
                 break;
             }
         }
@@ -99,6 +106,10 @@ public class EquipManager : MonoBehaviour
         }
         // Update itemEquipped status
         itemEquipped = HasEquippedItem();
+
+        // Deactivate putAwayText if nothing is equipped
+        if (putAwayText != null && !HasEquippedItem())
+            putAwayText.gameObject.SetActive(false);
     }
 
     public bool HasEquippedItem()

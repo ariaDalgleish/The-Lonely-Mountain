@@ -59,20 +59,23 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //  Toggle Inventory
-        if (InputManager.Instance.CloseInventory() && menuActivated)
+        // Close Inventory
+        if (InputManager.Instance.InventoryClose() && menuActivated)
         {
             SoundManager.PlaySound(SoundType.CLOSEINVENTORY);
             Time.timeScale = 1f;
             InventoryMenu.SetActive(false);
             menuActivated = false;
-            // mouse cursor invisible and locked to center of screen
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             DeselectAllSlots();
 
+
+            InputManager.Instance.playerControls.asset.FindActionMap("Player").Enable();
+            MenuManager.Instance.CloseMenu(MenuType.Inventory);
         }
-        else if (InputManager.Instance.OpenInventory() && !menuActivated)
+        // Open Inventory
+        else if (InputManager.Instance.InventoryOpen() && !menuActivated && MenuManager.Instance.CanOpenMenu(MenuType.Inventory))
         {
             DeselectAllSlots();
             SoundManager.PlaySound(SoundType.OPENINVENTORY);
@@ -82,12 +85,16 @@ public class InventoryManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
+            InputManager.Instance.playerControls.asset.FindActionMap("UI").Enable();
+
             // Select the first slot after menu is active
             if (itemSlots.Count > 0)
                 EventSystem.current.SetSelectedGameObject(itemSlots[0].gameObject);
+
+            MenuManager.Instance.OpenMenu(MenuType.Inventory);
         }
     }
-    
+
 
     public bool UseItem(string itemName)
     {

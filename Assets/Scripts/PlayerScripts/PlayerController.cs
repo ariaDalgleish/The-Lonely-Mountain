@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] 
     private Image pickupProgressImage;
     [SerializeField] 
-    private TextMeshProUGUI itemNameText;
+    private TextMeshProUGUI interactText;
 
     private Interact interactableObject;
     private float currentPickupTimerElapsed;
@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviour
             if (hitItem != interactableObject)
             {
                 interactableObject = hitItem;
-                itemNameText.text = interactableObject?.gameObject.name ?? "";
+                interactText.text = interactableObject?.gameObject.name ?? "";
             }
         }
         else

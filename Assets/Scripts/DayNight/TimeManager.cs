@@ -52,11 +52,11 @@ public class TimeManager : MonoBehaviour
         UpdateSkyBlend();
 
         // Keycodes to control time for experimenting!
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.PageUp))
         {
             timeSettings.timeMultiplier *= 2;
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.PageDown))
         {
             timeSettings.timeMultiplier /= 2;
         }
