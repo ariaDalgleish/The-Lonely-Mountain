@@ -61,6 +61,7 @@ public class SurvivalManager : MonoBehaviour
     [SerializeField] private float _staminaRechargeDelay = 5f;
     public float _currentStamina;
     private float _currentStaminaDelayCounter;
+    private bool isSprinting;
     public float MaxStamina => Mathf.Lerp(1f, _baseMaxStamina, _currentFatigue / _maxFatigue);
     public float StaminaPercent => _currentStamina / MaxStamina;
     #endregion
@@ -136,6 +137,10 @@ public class SurvivalManager : MonoBehaviour
     public void AddCold(float amount) => AddStat(ref _currentCold, amount, 0, _maxCold);
 
     // --- Stamina ---
+    public void SetSprinting(bool sprinting)
+    {
+        isSprinting = sprinting;
+    }
     public bool HasStamina()
     {
         return _currentStamina > 0;
@@ -143,7 +148,7 @@ public class SurvivalManager : MonoBehaviour
 
     private void UpdateStamina() 
     {
-        if (InputManager.Instance.sprint && HasStamina())
+        if (isSprinting && HasStamina())
         {
             _currentStamina = Mathf.Max(_currentStamina - _staminaDepletionRate * Time.deltaTime, 0);
             _currentStaminaDelayCounter = 0;

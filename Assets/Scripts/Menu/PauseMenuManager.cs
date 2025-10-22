@@ -85,5 +85,10 @@ public class PauseMenuManager : MonoBehaviour
     {
         // close the application
         Application.Quit();
+        // if in the editor, stop playing
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+
     }
 }

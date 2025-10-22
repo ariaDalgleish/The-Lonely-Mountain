@@ -52,8 +52,10 @@ public class PlayerController : MonoBehaviour
     private float footstepTimer = 0f;
     */
 
-    private bool IsSprinting => _inputManager.GetSprintInput() && _survivalManager.HasStamina();
-    //private float GetCurrentOffset => IsSprinting ? baseStepSpeed * sprintStepMultipler : baseStepSpeed;
+    private bool IsSprinting =>
+        _inputManager.GetSprintInput() &&
+        _survivalManager.HasStamina() &&
+        currentInputVector.magnitude > 0.1f; // Only sprint if moving    
 
     private void Start()
     {
@@ -141,6 +143,7 @@ public class PlayerController : MonoBehaviour
         move = cameraForward * move.z + cameraRight * move.x;
 
         // Check for sprint input and adjust speed
+        _survivalManager.SetSprinting(IsSprinting);
         float currentSpeed = IsSprinting ? sprintSpeed : playerSpeed;
         //float currentSpeed = _inputManager.GetSprintInput() && _survivalManager.HasStamina() ? sprintSpeed : playerSpeed;
 
