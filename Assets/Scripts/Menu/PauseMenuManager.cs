@@ -5,6 +5,8 @@ public class PauseMenuManager : MonoBehaviour
     private static PauseMenuManager instance;
 
     public GameObject pauseMenuCanvas;
+    public GameObject menuHelp;
+    public GameObject menuMeters;
 
     public bool IsPaused { get; private set; }
     void Awake()
@@ -41,6 +43,12 @@ public class PauseMenuManager : MonoBehaviour
         OpenMenu();
         MenuManager.Instance.OpenMenu(MenuType.Pause);
 
+        // Hide the UI prompt if active
+        if (menuHelp != null && menuHelp.activeSelf)
+            menuHelp.SetActive(false);
+        if (menuMeters != null && menuMeters.activeSelf)
+            menuMeters.SetActive(false);
+
         // Switch to UI controls
         InputManager.Instance.playerControls.Player.Disable();
         InputManager.Instance.playerControls.UI.Enable();
@@ -52,6 +60,10 @@ public class PauseMenuManager : MonoBehaviour
         Time.timeScale = 1f;
         CloseMenu();
         MenuManager.Instance.CloseMenu(MenuType.Pause);
+
+        // Show the UI prompt if it was hidden
+        if (menuMeters != null && !menuMeters.activeSelf)
+            menuMeters.SetActive(true);
 
         // Switch back to Player controls
         InputManager.Instance.playerControls.UI.Disable();

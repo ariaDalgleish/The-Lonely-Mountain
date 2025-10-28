@@ -5,6 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
+ 
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
 {
@@ -174,9 +177,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
         isFull = false;
         quantity = 0;
         thisItemSelected = false;
+        SetDisplayButtonsActive(false);
 
-        thisItemSelected = false;
-       
     }
 
 
@@ -194,11 +196,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
                 if (this.quantity <= 0)
                     EmptySlot();
             }
-            else
-            {
-                UIHelpMessages.Instance?.ShowMessage("Item not usable, do nothing");
-                return;
-            }
+            //else
+            //{
+            //    UIHelpMessages.Instance?.ShowMessage("Item not usable, do nothing");
+            //    return;
+            //}
         }
     }
 
@@ -227,11 +229,32 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
         if (itemData.itemPrefab != null)
         {
             GameObject player = GameObject.FindWithTag("Player");
-            if (player != null)
-            {
-                Instantiate(itemData.itemPrefab, player.transform.position, Quaternion.identity);
+            Camera mainCamera = Camera.main;
 
-                
+            if (player != null && mainCamera != null)
+            {
+                float dropDistance = 1.5f;
+                Vector3 rayOrigin = mainCamera.transform.position;
+                Vector3 rayDirection = mainCamera.transform.forward;
+                RaycastHit hit;
+
+                Vector3 dropPosition = player.transform.position + rayDirection * dropDistance;
+
+                if (Physics.Raycast(rayOrigin, rayDirection, out hit, dropDistance + 2f))
+                {
+                    // Place item well above ground to avoid clipping
+                    dropPosition = hit.point + Vector3.up * 0.5f;
+                }
+
+                GameObject droppedItem = Instantiate(itemData.itemPrefab, dropPosition, Quaternion.identity);
+
+                // Optional: Add upward force
+                Rigidbody rb = droppedItem.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.AddForce(Vector3.up * 2f, ForceMode.Impulse);
+                }
+
                 this.quantity -= 1;
                 UpdateQuantityUI();
                 if (this.quantity <= 0)
@@ -240,11 +263,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
                 }
             }
         }
-        else
-        {
-            return;
-        }
     }
-   
+
 }
 

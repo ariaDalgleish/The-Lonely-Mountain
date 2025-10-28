@@ -49,16 +49,16 @@ public class SurvivalUIManager : MonoBehaviour
 
         _restMeter.fillAmount = Mathf.Lerp(_restMeter.fillAmount, _survivalManager.FatiguePercent, Time.deltaTime * 5f);
         _restMeter.color = _survivalManager.IsFatigueCritical ? Color.red : Color.white;
-        _restIcon.color = _survivalManager.IsFatigueCritical ? Color.red : Color.white;
+        _restIcon.color = _survivalManager.IsFatigueCritical ? Color.red : new Color(0.9715014f, 0.7122642f, 1f, 1f);
         
        
         _thirstMeter.fillAmount = Mathf.Lerp(_thirstMeter.fillAmount, _survivalManager.ThirstPercent, Time.deltaTime * 5f);
         _thirstMeter.color = _survivalManager.IsThirstCritical ? Color.red : Color.white;
-        _thirstIcon.color = _survivalManager.IsThirstCritical ? Color.red : Color.blue;
+        _thirstIcon.color = _survivalManager.IsThirstCritical ? Color.red : new Color(0.5618103f, 0.7935258f, 0.9528302f, 1f);
 
         _hungerMeter.fillAmount = Mathf.Lerp(_hungerMeter.fillAmount, _survivalManager.HungerPercent, Time.deltaTime * 5f);
         _hungerMeter.color = _survivalManager.IsHungerCritical ? Color.red : Color.white;
-        _hungerIcon.color = _survivalManager.IsHungerCritical ? Color.red : new Color(1f, 0.5f, 0f, 1f); // RGBA for orange
+        _hungerIcon.color = _survivalManager.IsHungerCritical ? Color.red : new Color(1f, 0.7576767f, 0.3820755f, 1f); // RGBA for orange
 
         bool MaxStamina = _survivalManager._currentStamina >= _survivalManager.MaxStamina;
         //bool shouldShowSprint = IsSprinting && isStaminaNotFull;

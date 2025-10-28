@@ -1,15 +1,19 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EquipManager : MonoBehaviour
 {
     public Transform toolParent;
+    public Transform craftableParent;
     public Transform ingredientParent1;
     public Transform ingredientParent2;
     public Transform ingredientParent3;
 
     private GameObject equippedTool;
     private ItemData equippedToolData;
+
+    private GameObject equippedCraftable;
+    private ItemData equippedCraftableData;
 
     private GameObject[] equippedIngredients = new GameObject[3];
     private ItemData[] equippedIngredientsData = new ItemData[3];
@@ -24,11 +28,11 @@ public class EquipManager : MonoBehaviour
     private RectTransform putAwayText;
 
     public GameObject GetEquippedTool() => equippedTool;
+    public GameObject GetEquippedCraftable() => equippedCraftable;
     public GameObject[] GetEquippedIngredients() => equippedIngredients;
 
     private void Update()
     {
-        // "PutAway" input unequips the most recently equipped item, if any.
         if (InputManager.Instance.PutAway() && HasEquippedItem())
         {
             UnequipLast();
@@ -46,28 +50,31 @@ public class EquipManager : MonoBehaviour
         switch (itemData.itemType)
         {
             case ItemType.tool:
-                if (equippedTool != null)
+                if (equippedTool != null || equippedCraftable != null || HasAnyIngredientsEquipped())
                 {
-                    Debug.Log("Cannot equip tool: a tool is already equipped.");
-                    return false; // Block equip
+                    Debug.Log("Cannot equip tool: another item is already equipped.");
+                    return false;
                 }
-                if (HasAnyIngredientsEquipped())
+                EquipTool(itemData);
+                return true;
+            case ItemType.craftable:
+                if (equippedCraftable != null || equippedTool != null || HasAnyIngredientsEquipped())
                 {
-                    Debug.Log("Cannot equip tool: ingredients are already equipped.");
-                    return false; // Block equip
+                    Debug.Log("Cannot equip craftable: another item is already equipped.");
+                    return false;
                 }
-                EquipTool(itemData);      
+                EquipCraftable(itemData);
                 return true;
             case ItemType.ingredient:
-                if (equippedTool != null)
+                if (equippedTool != null || equippedCraftable != null)
                 {
-                    Debug.Log("Cannot equip ingredient: a tool is already equipped.");
-                    return false; // Block equip
+                    Debug.Log("Cannot equip ingredient: tool or craftable is already equipped.");
+                    return false;
                 }
                 if (GetIngredientCount() >= 3)
                 {
                     Debug.Log("Cannot equip ingredient: already equipped maximum number of ingredients.");
-                    return false; // Block equip
+                    return false;
                 }
                 EquipIngredient(itemData);
                 return true;
@@ -78,13 +85,21 @@ public class EquipManager : MonoBehaviour
 
     private void EquipTool(ItemData itemData)
     {
-        //if (equippedTool != null) Destroy(equippedTool);
         equippedTool = Instantiate(itemData.equipPrefab, toolParent);
         equippedToolData = itemData;
         equippedTool.transform.localPosition = Vector3.zero;
         itemEquipped = true;
-        equippedOrder.Push((ItemType.tool, 0)); // 0 index for tool
-        // No need to check for existing tool since Equip blocks if one is already equipped
+        equippedOrder.Push((ItemType.tool, 0));
+        putAwayText.gameObject.SetActive(true);
+    }
+
+    private void EquipCraftable(ItemData itemData)
+    {
+        equippedCraftable = Instantiate(itemData.equipPrefab, craftableParent);
+        equippedCraftableData = itemData;
+        equippedCraftable.transform.localPosition = Vector3.zero;
+        itemEquipped = true;
+        equippedOrder.Push((ItemType.craftable, 0));
         putAwayText.gameObject.SetActive(true);
     }
 
@@ -117,21 +132,22 @@ public class EquipManager : MonoBehaviour
             case ItemType.tool:
                 UnequipTool();
                 break;
+            case ItemType.craftable:
+                UnequipCraftable();
+                break;
             case ItemType.ingredient:
                 UnequipIngredient(index);
                 break;
         }
-        // Update itemEquipped status
         itemEquipped = HasEquippedItem();
 
-        // Deactivate putAwayText if nothing is equipped
         if (putAwayText != null && !HasEquippedItem())
             putAwayText.gameObject.SetActive(false);
     }
 
     public bool HasEquippedItem()
     {
-        return equippedTool != null || HasAnyIngredientsEquipped();
+        return equippedTool != null || equippedCraftable != null || HasAnyIngredientsEquipped();
     }
 
     private bool HasAnyIngredientsEquipped()
@@ -160,6 +176,20 @@ public class EquipManager : MonoBehaviour
                 equippedToolData = null;
             }
             equippedTool = null;
+        }
+    }
+
+    public void UnequipCraftable()
+    {
+        if (equippedCraftable != null)
+        {
+            Destroy(equippedCraftable);
+            if (equippedCraftableData != null)
+            {
+                inventoryManager.AddItem(equippedCraftableData, 1);
+                equippedCraftableData = null;
+            }
+            equippedCraftable = null;
         }
     }
 

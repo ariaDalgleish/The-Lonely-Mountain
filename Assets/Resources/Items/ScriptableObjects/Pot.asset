@@ -16,9 +16,9 @@ MonoBehaviour:
   itemDescription: Useful
   itemSprite: {fileID: 21300000, guid: 7d4364153aa542a4ca3693181d192b70, type: 3}
   sketchSprite: {fileID: 21300000, guid: 7b3c71046e522e740a71b53515df63bc, type: 3}
-  itemPrefab: {fileID: 356226389206023256, guid: c2430d29705b47a499025901894b6c02, type: 3}
+  itemPrefab: {fileID: 356226389206023256, guid: 8f1e15511aeadac4f983bd6c68325fb5, type: 3}
   equipPrefab: {fileID: 356226389206023256, guid: 636b178be7ea3a64ab8056050ddce586, type: 3}
-  itemType: 1
+  itemType: 2
   statToChange: 0
   attributesToChange: 0
   amountToChangeStat: 0

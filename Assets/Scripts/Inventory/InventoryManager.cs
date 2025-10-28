@@ -3,7 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+//using UnityEngine.UIElements;
 using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -23,6 +25,8 @@ public class InventoryManager : MonoBehaviour
     public Button holdButton;
     public ItemSlot currentSelectedSlot;
 
+    public ItemData startingPot;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,6 +38,10 @@ public class InventoryManager : MonoBehaviour
 
         InventoryMenu.SetActive(false);
         menuActivated = false;
+
+
+        if (startingPot != null)
+            AddItem(startingPot, 1);
     }
     private ItemSlot CreateNewItemSlot(bool selectFirstSlot = false)
     {

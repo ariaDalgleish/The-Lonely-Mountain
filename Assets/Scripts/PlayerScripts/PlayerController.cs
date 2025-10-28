@@ -234,7 +234,7 @@ public class PlayerController : MonoBehaviour
             if (hitItem != interactableObject)
             {
                 interactableObject = hitItem;
-                interactText.text = interactableObject?.gameObject.name ?? "";
+                interactText.text = interactableObject?.GetPromptText(this) ?? "";
             }
         }
         else
@@ -244,4 +244,15 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public GameObject GetEquippedTool()
+    {
+        // Use FindFirstObjectByType instead of FindObjectOfType to fix CS0618
+        var equipManager = Object.FindFirstObjectByType<EquipManager>();
+        // Fix UNT0008: Do not use null propagation with Unity objects
+        if (equipManager != null)
+        {
+            return equipManager.GetEquippedTool();
+        }
+        return null;
+    }
 }

@@ -8,6 +8,8 @@ TagManager:
   - Footsteps/Rock
   - Footsteps/Grass
   - Interactions/Fire
+  - ManualPointLight
+  - Campfire
   layers:
   - Default
   - TransparentFX

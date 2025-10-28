@@ -3092,6 +3092,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d69fa1cbc90584a99b19eae7d8b9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemData: {fileID: 11400000, guid: 80afb27c2d8c0f54f88f9421f970fa5a, type: 2}
+  customPrompt: Harvest Kale
+  hasPotOnCampfire: 0
 --- !u!1 &8454008219235579763
 GameObject:
   m_ObjectHideFlags: 0
