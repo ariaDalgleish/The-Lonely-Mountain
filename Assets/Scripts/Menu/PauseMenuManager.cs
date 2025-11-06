@@ -43,6 +43,7 @@ public class PauseMenuManager : MonoBehaviour
         OpenMenu();
         MenuManager.Instance.OpenMenu(MenuType.Pause);
 
+        menuHelpActive = false;
         // Hide the UI prompt if active
         if (menuHelp != null && menuHelp.activeSelf)
             menuHelp.SetActive(false);
@@ -60,6 +61,9 @@ public class PauseMenuManager : MonoBehaviour
         Time.timeScale = 1f;
         CloseMenu();
         MenuManager.Instance.CloseMenu(MenuType.Pause);
+
+        // Do NOT reactivate menuHelp here
+        // menuHelpActive = true;
 
         // Show the UI prompt if it was hidden
         if (menuMeters != null && !menuMeters.activeSelf)
@@ -102,5 +106,21 @@ public class PauseMenuManager : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
 
+    }
+
+    public bool menuHelpActive
+    {
+        get => menuHelp != null && menuHelp.activeSelf;
+        set
+        {
+            if (menuHelp != null)
+                menuHelp.SetActive(value);
+        }
+    }
+
+    // Method for Timeline signal to call
+    public void SetMenuHelpActive(bool active)
+    {
+        menuHelpActive = active;
     }
 }

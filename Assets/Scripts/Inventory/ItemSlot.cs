@@ -156,7 +156,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
                 itemDescriptionImage.sprite = emptySprite;
 
             SetDisplayButtonsActive(true);
-            }
+
+            // Only show eatButton if item is ingredient
+            if (eatButton != null)
+                eatButton.gameObject.SetActive(itemData != null && itemData.itemType == ItemType.ingredient);
+        }
         
     }
 
@@ -178,7 +182,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, ISubmitHandler
         quantity = 0;
         thisItemSelected = false;
         SetDisplayButtonsActive(false);
-
+        if (eatButton != null)
+            eatButton.gameObject.SetActive(false);
     }
 
 

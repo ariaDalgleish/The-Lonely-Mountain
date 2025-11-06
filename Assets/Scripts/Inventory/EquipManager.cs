@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EquipManager : MonoBehaviour
 {
+    public static EquipManager Instance { get; private set; }
+
     public Transform toolParent;
     public Transform craftableParent;
     public Transform ingredientParent1;
@@ -30,6 +32,17 @@ public class EquipManager : MonoBehaviour
     public GameObject GetEquippedTool() => equippedTool;
     public GameObject GetEquippedCraftable() => equippedCraftable;
     public GameObject[] GetEquippedIngredients() => equippedIngredients;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Update()
     {
@@ -52,7 +65,8 @@ public class EquipManager : MonoBehaviour
             case ItemType.tool:
                 if (equippedTool != null || equippedCraftable != null || HasAnyIngredientsEquipped())
                 {
-                    Debug.Log("Cannot equip tool: another item is already equipped.");
+                    UIHelpMessages.Instance?.ShowMessage("Another item is already equipped.");
+
                     return false;
                 }
                 EquipTool(itemData);
@@ -60,7 +74,7 @@ public class EquipManager : MonoBehaviour
             case ItemType.craftable:
                 if (equippedCraftable != null || equippedTool != null || HasAnyIngredientsEquipped())
                 {
-                    Debug.Log("Cannot equip craftable: another item is already equipped.");
+                    UIHelpMessages.Instance?.ShowMessage("Another item is already equipped.");
                     return false;
                 }
                 EquipCraftable(itemData);
@@ -68,12 +82,12 @@ public class EquipManager : MonoBehaviour
             case ItemType.ingredient:
                 if (equippedTool != null || equippedCraftable != null)
                 {
-                    Debug.Log("Cannot equip ingredient: tool or craftable is already equipped.");
+                    UIHelpMessages.Instance?.ShowMessage("Another item is already equipped.");
                     return false;
                 }
                 if (GetIngredientCount() >= 3)
                 {
-                    Debug.Log("Cannot equip ingredient: already equipped maximum number of ingredients.");
+                    UIHelpMessages.Instance?.ShowMessage("Cannot carry anymore");
                     return false;
                 }
                 EquipIngredient(itemData);

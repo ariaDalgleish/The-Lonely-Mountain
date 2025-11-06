@@ -32,6 +32,9 @@ public class MainMenuManager : MonoBehaviour
         if (introVideoPlayer != null)
         {
             introVideoPlayer.gameObject.SetActive(true);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
             introVideoPlayer.loopPointReached += OnIntroVideoFinished;
             introVideoPlayer.Play();
         }

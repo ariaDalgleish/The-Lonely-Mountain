@@ -40,8 +40,8 @@ public class SurvivalUIManager : MonoBehaviour
 
         // Use this for your meter fill
         _staminaMeter.fillAmount = Mathf.Lerp(_staminaMeter.fillAmount, staminaMeterFill, Time.deltaTime * 5f);
-        _staminaMeter.color = _survivalManager.IsStaminaCritical ? Color.red : Color.white;
-        _staminaIcon.color = _survivalManager.IsStaminaCritical ? Color.red : Color.white;
+        _staminaMeter.color = _survivalManager.IsStaminaCritical ? new Color(0.745283f, 0f, 0f, 1f) : Color.white;
+        _staminaIcon.color = _survivalManager.IsStaminaCritical ? new Color(0.745283f, 0f, 0f, 1f) : Color.white;
 
         _warmthMeter.fillAmount = Mathf.Lerp(_warmthMeter.fillAmount, _survivalManager.ColdPercent, Time.deltaTime * 5f);
         _warmthMeter.color = _survivalManager.IsColdCritical ? Color.red : Color.white;
@@ -106,5 +106,24 @@ public class SurvivalUIManager : MonoBehaviour
     {
         yield return FadeCanvasGroup(cg, cg.alpha, 0f, duration);
         Sprint.SetActive(false);
+    }
+
+    public void SetMetersActive(bool active)
+    {
+        if (_healthMeter != null) _healthMeter.gameObject.SetActive(active);
+        if (_staminaMeter != null) _staminaMeter.gameObject.SetActive(active);
+        if (_warmthMeter != null) _warmthMeter.gameObject.SetActive(active);
+        if (_restMeter != null) _restMeter.gameObject.SetActive(active);
+        if (_thirstMeter != null) _thirstMeter.gameObject.SetActive(active);
+        if (_hungerMeter != null) _hungerMeter.gameObject.SetActive(active);
+
+        if (_healthIcon != null) _healthIcon.gameObject.SetActive(active);
+        if (_staminaIcon != null) _staminaIcon.gameObject.SetActive(active);
+        if (_warmthIcon != null) _warmthIcon.gameObject.SetActive(active);
+        if (_restIcon != null) _restIcon.gameObject.SetActive(active);
+        if (_thirstIcon != null) _thirstIcon.gameObject.SetActive(active);
+        if (_hungerIcon != null) _hungerIcon.gameObject.SetActive(active);
+
+        if (Sprint != null) Sprint.SetActive(active);
     }
 }

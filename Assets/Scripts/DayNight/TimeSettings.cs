@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TimeSettings", menuName = "TimeSettings")]
 public class TimeSettings : ScriptableObject
 {
-    public float timeMultiplier = 10;
+    public float timeMultiplier = 20;
     public float startHour = 12;
     public float sunriseHour = 6;
     public float sunsetHour = 18;

@@ -36,21 +36,7 @@ public class Interact : MonoBehaviour
 
     public string GetPromptText(PlayerController player)
     {
-        // Example: Campfire logic
-        if (gameObject.CompareTag("Campfire"))
-        {
-            var equippedTool = player.GetEquippedTool(); // Or however you access equipped items
-            if (!hasPotOnCampfire && equippedTool != null && equippedTool.GetComponent<ItemData>()?.itemName == "Pot")
-            {
-                return "Place Pot on Campfire";
-            }
-            return hasPotOnCampfire ? "Light Campfire" : "Interact with Campfire";
-        }
-
-        // Example: Item pickup
-        //if (itemData != null)
-        //    return $"Harvest {itemData.itemName}";
-
+        
         // Fallback
         if (!string.IsNullOrEmpty(customPrompt))
             return customPrompt;

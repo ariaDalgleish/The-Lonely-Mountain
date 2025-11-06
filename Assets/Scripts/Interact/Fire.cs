@@ -7,10 +7,11 @@ public class Fire : MonoBehaviour
 
     [SerializeField] private GameObject baseFire;
     [SerializeField] private AudioSource fireLoopSource; // assign in inspector, for ambient fire
+    [SerializeField] private CampfirePotInteraction campfirePotInteraction;
 
 
     // Fire state
-    private bool isFireOn = false;
+    public bool isFireOn = false;
 
     
 
@@ -38,9 +39,14 @@ public class Fire : MonoBehaviour
 
     private void HandleInteraction()
     {
-        // Toggle the fire state when the interaction event is triggered
-        ToggleFire();
+        if (campfirePotInteraction != null)
+        {
+            // TryPlacePot() returns void, so call it and return if it succeeds
+            campfirePotInteraction.TryPlacePot();
+            return; // Only place pot if possible, otherwise toggle fire
+        }
 
+        ToggleFire();
     }
 
     private void ToggleFire()
