@@ -150,12 +150,19 @@ public class SurvivalManager : MonoBehaviour
     {
         if (isSprinting && HasStamina())
         {
+            
+
             _currentStamina = Mathf.Max(_currentStamina - _staminaDepletionRate * Time.deltaTime, 0);
             _currentStaminaDelayCounter = 0;
-            _currentFatigue = Mathf.Max(_currentFatigue - _fatigueFromStaminaUsage * Time.deltaTime, 0);
+            // Only reduce fatigue if stamina is critical
+            if (IsStaminaCritical)
+            {
+                _currentFatigue = Mathf.Max(_currentFatigue - _fatigueFromStaminaUsage * Time.deltaTime, 0);
+            }
         }
-        else if (_currentStamina < MaxStamina) // Only recharge if not full
+        else if (_currentStamina < MaxStamina) // Only recharge if not full and not sprinting
         {
+            //SoundManager.StopLoopingSound();
             _currentStaminaDelayCounter += Time.deltaTime;
             if (_currentStaminaDelayCounter >= _staminaRechargeDelay)
             {

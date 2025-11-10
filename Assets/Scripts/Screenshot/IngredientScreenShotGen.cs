@@ -26,12 +26,12 @@ namespace TJ
             foreach (IngredientToScreenShot item in ingredientsToScreenShot)
             {
                 item.gameObject.SetActive(true);
-                yield return new WaitForSeconds(.5f);
+                yield return new WaitForSeconds(5f);
                 currentIngredient = item.ingredient;
 
                 ScreenshotHandler.instance.iconName = currentIngredient.name;
 
-                ScreenshotHandler.TakeScreenshot_Static(512, 512);
+                ScreenshotHandler.TakeScreenshot_Static(1920,1080);
                 //EditorUtility.SetDirty(currentIngredient);
 
                 yield return new WaitForSeconds(.5f);

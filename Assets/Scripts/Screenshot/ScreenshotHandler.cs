@@ -23,7 +23,7 @@ public class ScreenshotHandler : MonoBehaviour
             myCamera = gameObject.GetComponent<Camera>();
             generator = Object.FindFirstObjectByType<IngredientScreenShotGen>();
             myCamera.clearFlags = CameraClearFlags.SolidColor;
-            myCamera.backgroundColor = new Color(0, 0, 0, 0);
+            myCamera.backgroundColor = Color.white;
         }
     public IEnumerator OnPostRender()
     {
@@ -36,7 +36,7 @@ public class ScreenshotHandler : MonoBehaviour
             Texture2D renderResult = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
 
             //used to be 0,0 for bottom left corner, moving it to get center of screen, should have probably just made the screen size 512 by 512
-            Rect rect = new Rect((1920-renderTexture.width)/2, (1080-renderTexture.height)/2, renderTexture.width, renderTexture.height);
+            Rect rect = new Rect(0,0, renderTexture.width, renderTexture.height);
             renderResult.ReadPixels(rect, 0, 0);
 
                 #region yoinked from battledrake https://www.youtube.com/watch?v=ZXYyX80F6CU
@@ -59,17 +59,24 @@ public class ScreenshotHandler : MonoBehaviour
             System.IO.File.WriteAllBytes("Assets/Resources/Items/Icons/" + iconName + ".png", byteArray);
             RenderTexture.ReleaseTemporary(renderTexture);
             myCamera.targetTexture = null;
-            Debug.Log("Assets/Resources/Items/Icons/" + iconName + ".png created");
+            Debug.Log("Assets/Resources/Items/Test/" + iconName + ".png created");
         }
     }
     private void TakeScreenshot(int width, int height){
         myCamera.targetTexture = RenderTexture.GetTemporary(width, height, 32);
+        
         takeScreenshotOnNextFrame = true;
         StartCoroutine(OnPostRender());
     }
     public static void TakeScreenshot_Static(int width, int height)
     {
         instance.TakeScreenshot(width, height);
+    }
+    
+    private IEnumerator TakeScreenshotWithDelay(int width, int height, float delaySeconds)
+    {
+        yield return new WaitForSeconds(delaySeconds);
+        TakeScreenshot(width, height);
     }
     public Texture2D ResizeTexture(Texture2D originalTexture, ImageFilterMode filterMode, int newWidth, int newHeight) 
     {

@@ -14,48 +14,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float smoothInputSpeed = .2f;
 
-    [SerializeField]
-    private float pickupTime = 2f;
-    [SerializeField] 
-    private RectTransform pickupImageRoot;
-    [SerializeField] 
-    private Image pickupProgressImage;
-    [SerializeField] 
-    private TextMeshProUGUI interactText;
-
-    private Interact interactableObject;
-    private float currentPickupTimerElapsed;
-    private bool hasInteractedThisHold = false;
-
-    //[SerializeField]
-    //private bool useFootSteps = true;
-
     private SurvivalManager _survivalManager;
     private CharacterController controller;
     private InputManager _inputManager;
+    private Transform _cameraTransform;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-
-    
-    private Transform _cameraTransform;
-
     private Vector2 currentInputVector;
     private Vector2 smoothInputVelocity;
 
-    /*[Header("Footsteps")]
-    [SerializeField] private float baseStepSpeed = 0.5f;
-    [SerializeField] private float sprintStepMultipler = 0.6f;
-    [SerializeField] private AudioSource footstepAudioSource = default;
-    [SerializeField] private AudioClip[] snowClips = default;
-    [SerializeField] private AudioClip[] grassClips = default;
-    [SerializeField] private AudioClip[] rockClips = default;
-    private float footstepTimer = 0f;
-    */
-
+    // Sprint handling
+    private bool wasSprinting = false;
+    private float sprintSoundTimer = 0f;
+    private const float sprintSoundInterval = 2f;
     private bool IsSprinting =>
         _inputManager.GetSprintInput() &&
         _survivalManager.HasStamina() &&
-        currentInputVector.magnitude > 0.1f; // Only sprint if moving    
+        currentInputVector.magnitude > 0.1f; // Only sprint if moving
 
     private void Start()
     {
@@ -72,44 +47,26 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        HandleInteractionUI();
         HandleMovement();
+        HandleSprintSound();
         //if (useFootSteps) HandleFootsteps();
-        
-       
     }
-   
-    
-    private void HandleInteractionUI()
-    { 
-        PlayerInteract();
 
-        if (HasItemTargetted())
+    private void HandleSprintSound()
+    {
+        bool isCurrentlySprinting = IsSprinting;
+        if (isCurrentlySprinting)
         {
-            pickupImageRoot.gameObject.SetActive(true);
-
-            if (_inputManager.IsInteractKeyPressed())
+            sprintSoundTimer += Time.deltaTime;
+            if (sprintSoundTimer >= sprintSoundInterval)
             {
-                if (!hasInteractedThisHold)
-                {
-                    IncrementPickupProgressAndTryComplete();
-                }
-                //interactableObject.CallInteract(this)
+                SoundManager.PlaySound(SoundType.SPRINT, .2f);
+                sprintSoundTimer = 0f;
             }
-            else
-            {
-                currentPickupTimerElapsed = 0f;
-                hasInteractedThisHold = false; // Reset when key is released
-
-            }
-
-            UpdatePickupProgressImage();
         }
         else
         {
-            pickupImageRoot.gameObject.SetActive(false);
-            currentPickupTimerElapsed = 0f;
-            hasInteractedThisHold = false;
+            sprintSoundTimer = sprintSoundInterval; // Reset so it plays immediately next time
         }
     }
 
@@ -154,105 +111,5 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
-    /*private void HandleFootsteps()
-    {
-        if (!controller.isGrounded) return;
-
-        if (currentInputVector == Vector2.zero) return;
-
-        footstepTimer -= Time.deltaTime;
-
-        if (footstepTimer <= 0f)
-        {
-            if (Physics.Raycast(_cameraTransform.position, Vector3.down, out RaycastHit hit, 3))
-            {
-                switch (hit.collider.tag)
-                {
-                    case "Footsteps/Snow":
-                        footstepAudioSource.PlayOneShot(snowClips[Random.Range(0, snowClips.Length -1)]);
-                        break;
-                    case "Footsteps/Grass":
-                        footstepAudioSource.PlayOneShot(grassClips[Random.Range(0, grassClips.Length -1)]);
-                        break;
-                    case "Footsteps/Rock":
-                        footstepAudioSource.PlayOneShot(rockClips[Random.Range(0, rockClips.Length -1)]);
-                        break;
-                    default:
-                        footstepAudioSource.PlayOneShot(snowClips[Random.Range(0, snowClips.Length - 1)]);
-                        break;
-                }
-            }
-
-            footstepTimer = GetCurrentOffset;
-        }
-    }
-    */
-
-    private bool HasItemTargetted()
-    {
-        return interactableObject != null;
-    }
-    private void IncrementPickupProgressAndTryComplete()
-    {
-        currentPickupTimerElapsed += Time.deltaTime;
-        if (currentPickupTimerElapsed >= pickupTime)
-        {
-            Debug.Log("Pick up item");
-            interactableObject.CallInteract(this);
-            hasInteractedThisHold = true;
-            // Prevent further interaction until key is released
-            // Only set interactableObject = null if you want to clear the reference (e.g., for items)
-        }
-    }
-
-    private void UpdatePickupProgressImage()
-    {
-        float pct = currentPickupTimerElapsed / pickupTime;
-        pickupProgressImage.fillAmount = pct;
-    }
-
-    public void PlayerInteract()
-    {
-        var layermask0 = 1 << 0; // Default
-        var layermask3 = 1 << 3; // Interactable
-        var finalmask = layermask0 | layermask3;
-
-        RaycastHit hit;
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Debug.DrawRay(ray.origin, ray.direction * 2f, Color.red);
-
-        
-        if (Physics.Raycast(ray, out hit, 4f, finalmask)) // Range
-        {
-
-            var hitItem = hit.transform.GetComponent<Interact>();
-            if (hitItem == null)
-            {
-                interactableObject = null;
-                return;
-            }
-            if (hitItem != interactableObject)
-            {
-                interactableObject = hitItem;
-                interactText.text = interactableObject?.GetPromptText(this) ?? "";
-            }
-        }
-        else
-        {
-            interactableObject = null;
-        }
-
-    }
-
-    public GameObject GetEquippedTool()
-    {
-        // Use FindFirstObjectByType instead of FindObjectOfType to fix CS0618
-        var equipManager = Object.FindFirstObjectByType<EquipManager>();
-        // Fix UNT0008: Do not use null propagation with Unity objects
-        if (equipManager != null)
-        {
-            return equipManager.GetEquippedTool();
-        }
-        return null;
-    }
+  
 }

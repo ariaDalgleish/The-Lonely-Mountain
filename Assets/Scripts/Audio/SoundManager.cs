@@ -11,6 +11,9 @@ public enum SoundType
    OPENINVENTORY,
    CLOSEINVENTORY,
    SHIVER,
+   SPRINT,
+   EAT,
+
    
 }
 
@@ -31,14 +34,29 @@ public class SoundManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public static void PlaySound(SoundType sound, float volume = 1)
+    public static void PlaySound(SoundType sound, float volume = 1f)
     {
         AudioClip[] clips = instance.soundList[(int)sound].Sounds;
         AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
         instance.audioSource.PlayOneShot(randomClip, volume);
         
     }
+    public static void PlayLoopingSound(SoundType sound, float volume = 1)
+    {
+        AudioClip[] clips = instance.soundList[(int)sound].Sounds;
+        AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
+        instance.audioSource.clip = randomClip;
+        instance.audioSource.volume = volume;
+        instance.audioSource.loop = true;
+        instance.audioSource.Play();
+    }
 
+    public static void StopLoopingSound()
+    {
+        instance.audioSource.Stop();
+        instance.audioSource.loop = false;
+        instance.audioSource.clip = null;
+    }
 #if UNITY_EDITOR
     private void OnEnable()
     {

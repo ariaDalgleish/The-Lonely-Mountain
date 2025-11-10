@@ -3,7 +3,7 @@ using UnityEngine;
 public class Interact : MonoBehaviour
 {
     InteractEvent interact = new InteractEvent();
-    PlayerController playerController;
+    PlayerInteract playerInteract;
 
     public ItemData itemData; // For items
     [SerializeField] private string customPrompt; // For static objects
@@ -20,21 +20,21 @@ public class Interact : MonoBehaviour
         }
     }
 
-    public PlayerController GetPlayerController
+    public PlayerInteract GetPlayerInteract
     {
         get
         {
-            return playerController;
+            return playerInteract;
         }
     }
 
-    public void CallInteract(PlayerController interactedPlayer)
+    public void CallInteract(PlayerInteract interactedPlayer)
     {
-        playerController = interactedPlayer;
+        playerInteract = interactedPlayer;
         interact.CallInteractEvent();
     }
 
-    public string GetPromptText(PlayerController player)
+    public string GetPromptText(PlayerInteract player)
     {
         
         // Fallback
