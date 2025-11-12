@@ -73,6 +73,10 @@ public class SurvivalManager : MonoBehaviour
     #endregion
 
     #region Death
+    [SerializeField] private GameObject gameOverMenu;
+    [SerializeField] private bool freezeOnDeath = true;
+    [Tooltip("Show and unlock cursor on death.")]
+    [SerializeField] private bool showCursorOnDeath = true;
     private bool _playerHasDied = false;
     #endregion
 
@@ -263,11 +267,25 @@ public class SurvivalManager : MonoBehaviour
     // --- Death ---
     private void HandlePlayerDeath()
     {
+        // if health 
         if (!_playerHasDied)
         {
             Debug.Log("Player has died.");
             _playerHasDied = true;
             // Game over menu.
+
+            if (gameOverMenu != null)
+                gameOverMenu.SetActive(true);
+            // Pause the game if requested
+            if (freezeOnDeath)
+                Time.timeScale = 0f;
+
+            // Show and unlock the cursor so player can interact with the menu
+            if (showCursorOnDeath)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
         }
     }
 }

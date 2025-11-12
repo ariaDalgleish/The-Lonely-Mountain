@@ -625,7 +625,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -634,7 +634,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -673,7 +673,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -703,7 +703,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -712,7 +712,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -1942,7 +1942,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -1951,7 +1951,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -1990,7 +1990,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -2020,7 +2020,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -2029,7 +2029,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -2121,7 +2121,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -2130,7 +2130,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -2169,7 +2169,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -2199,7 +2199,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -2208,7 +2208,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -2259,7 +2259,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.316667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -2268,7 +2268,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.483334
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -2307,7 +2307,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.483334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -2337,7 +2337,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.316667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -2346,7 +2346,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.483334
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -2438,7 +2438,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -2447,7 +2447,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -2486,7 +2486,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -2516,7 +2516,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -2525,7 +2525,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -2625,7 +2625,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.316667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -2634,7 +2634,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.483334
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -2673,7 +2673,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.483334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -2703,7 +2703,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.316667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -2712,7 +2712,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.483334
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -2842,7 +2842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 11.816666666666666
+  m_Time: 15.333333333333334
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 22b8f116185086c489a86f4086463761, type: 2}
@@ -3005,7 +3005,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -3014,7 +3014,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -3053,7 +3053,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -3083,7 +3083,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -3092,7 +3092,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -3168,7 +3168,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.316667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -3177,7 +3177,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.483334
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -3216,7 +3216,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.483334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -3246,7 +3246,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.316667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -3255,7 +3255,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.483334
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -3388,7 +3388,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -3397,7 +3397,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -3436,7 +3436,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -3466,7 +3466,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -3475,7 +3475,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -3847,7 +3847,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.316667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -3856,7 +3856,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.483334
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -3895,7 +3895,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.483334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -3925,7 +3925,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.316667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -3934,7 +3934,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.483334
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -4092,7 +4092,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -4101,7 +4101,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -4140,7 +4140,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 11.616667
+    m_StopTime: 15.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -4170,7 +4170,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.45
+        time: 15.333333
         value: 0
         inSlope: 0
         outSlope: 0
@@ -4179,7 +4179,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 11.616667
+        time: 15.5
         value: 0.29803923
         inSlope: 0
         outSlope: 0
@@ -4268,7 +4268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 11.533333333333333
+  m_Time: 15.3
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: eb3bee15d01505247a347fcfde897e60, type: 2}

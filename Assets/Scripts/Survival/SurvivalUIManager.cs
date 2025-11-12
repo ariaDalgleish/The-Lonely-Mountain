@@ -41,11 +41,11 @@ public class SurvivalUIManager : MonoBehaviour
         // Use this for your meter fill
         _staminaMeter.fillAmount = Mathf.Lerp(_staminaMeter.fillAmount, staminaMeterFill, Time.deltaTime * 5f);
         _staminaMeter.color = _survivalManager.IsStaminaCritical ? new Color(0.745283f, 0f, 0f, 1f) : Color.white;
-        _staminaIcon.color = _survivalManager.IsStaminaCritical ? new Color(0.745283f, 0f, 0f, 1f) : Color.white;
+        //_staminaIcon.color = _survivalManager.IsStaminaCritical ? new Color(0.745283f, 0f, 0f, 1f) : Color.white;
 
         _warmthMeter.fillAmount = Mathf.Lerp(_warmthMeter.fillAmount, _survivalManager.ColdPercent, Time.deltaTime * 5f);
         _warmthMeter.color = _survivalManager.IsColdCritical ? Color.red : Color.white;
-        _warmthIcon.color = _survivalManager.IsColdCritical ? Color.red : Color.white;
+        //_warmthIcon.color = _survivalManager.IsColdCritical ? Color.red : Color.white;
 
         _restMeter.fillAmount = Mathf.Lerp(_restMeter.fillAmount, _survivalManager.FatiguePercent, Time.deltaTime * 5f);
         _restMeter.color = _survivalManager.IsFatigueCritical ? Color.red : Color.white;
