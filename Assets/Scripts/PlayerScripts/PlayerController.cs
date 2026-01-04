@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 smoothInputVelocity;
 
     // Sprint handling
-    private bool wasSprinting = false;
+    //private bool wasSprinting = false;
     private float sprintSoundTimer = 0f;
     private const float sprintSoundInterval = 2f;
     private bool IsSprinting =>
