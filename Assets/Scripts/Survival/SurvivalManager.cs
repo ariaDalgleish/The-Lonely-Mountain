@@ -25,9 +25,9 @@ public class SurvivalManager : MonoBehaviour
     #region Thirst
     [Header("Thirst")]
     public float _currentThirst;
-    [SerializeField] public float _maxThirst = 100f;
+    [SerializeField] public float _maxThirst = 300f;
     private float thirstDepleteTimer = 0f;
-    [SerializeField] private float thirstDepleteInterval = 5f;
+    [SerializeField] private float thirstDepleteInterval = 1.5f;
     [SerializeField] private float thirstDepleteAmount = 1f;
     public float ThirstPercent => _currentThirst / _maxThirst;
     #endregion
